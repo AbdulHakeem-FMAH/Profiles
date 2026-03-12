@@ -41,9 +41,330 @@
     img { display: block; max-width: 100%; height: auto; }
 
     /* ══════════════════════════════════════════
+       LOGIN PAGE
+    ══════════════════════════════════════════ */
+    #login-page {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--body-color);
+      padding: 1.5rem;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    #login-page.exit {
+      opacity: 0;
+      transform: translateY(-24px) scale(0.98);
+      pointer-events: none;
+    }
+
+    /* dot-grid also on login */
+    #login-page::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(hsla(230,40%,60%,0.15) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+
+    /* floating orbs behind the card */
+    .login-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .login-orb-1 {
+      width: 320px; height: 320px;
+      background: hsla(230,100%,60%,0.12);
+      top: -60px; left: -60px;
+      animation: orb-drift 8s ease-in-out infinite alternate;
+    }
+
+    .login-orb-2 {
+      width: 260px; height: 260px;
+      background: hsla(200,100%,60%,0.1);
+      bottom: -40px; right: -40px;
+      animation: orb-drift 10s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes orb-drift {
+      from { transform: translate(0, 0); }
+      to   { transform: translate(30px, 20px); }
+    }
+
+    /* login card */
+    .login-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 400px;
+      background: var(--container-color);
+      border: 1px solid var(--border-color);
+      border-radius: 1.75rem;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      animation: loginCardIn 0.65s cubic-bezier(0.34,1.3,0.64,1) forwards;
+    }
+
+    @keyframes loginCardIn {
+      from { opacity: 0; transform: translateY(28px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* top gradient bar */
+    .login-accent {
+      height: 4px;
+      background: linear-gradient(90deg, var(--first-color), hsl(200,100%,60%), var(--second-color));
+    }
+
+    .login-body {
+      padding: 2.25rem 2rem 2rem;
+    }
+
+    /* logo row */
+    .login-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .login-logo-icon {
+      width: 40px; height: 40px;
+      background: var(--first-color);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px hsla(230,100%,50%,0.3);
+    }
+
+    .login-logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .login-logo-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--title-color);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .login-logo-sub {
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--text-color);
+      letter-spacing: 0.06em;
+    }
+
+    /* group pills */
+    .login-groups {
+      display: flex;
+      gap: 0.35rem;
+      margin-left: auto;
+    }
+
+    .login-group-pill {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 0.18rem 0.55rem;
+      border-radius: 20px;
+    }
+
+    .login-group-pill.lexi { background: var(--first-color-light); color: var(--first-color); }
+    .login-group-pill.msil { background: var(--msil-color-light);  color: var(--msil-color); }
+
+    /* heading */
+    .login-heading {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--title-color);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 0.4rem;
+    }
+
+    .login-heading span {
+      background: linear-gradient(135deg, var(--first-color), hsl(200,100%,60%));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .login-sub {
+      font-size: 0.82rem;
+      color: var(--text-color);
+      line-height: 1.6;
+      margin-bottom: 1.75rem;
+    }
+
+    /* input group */
+    .login-field {
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .login-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--title-color);
+      letter-spacing: 0.03em;
+      margin-bottom: 0.4rem;
+    }
+
+    .login-input-wrap {
+      position: relative;
+    }
+
+    .login-input-wrap i.input-icon {
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      color: var(--text-color);
+      pointer-events: none;
+      transition: color 0.2s;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 0.7rem 1rem 0.7rem 2.6rem;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      background: var(--body-color);
+      font-family: var(--body-font);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--title-color);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .login-input::placeholder { color: var(--text-color); opacity: 0.6; }
+
+    .login-input:focus {
+      border-color: var(--first-color);
+      background: var(--container-color);
+      box-shadow: 0 0 0 3px hsla(230,100%,50%,0.1);
+    }
+
+    .login-input:focus + .input-icon,
+    .login-input-wrap:focus-within i.input-icon { color: var(--first-color); }
+
+    /* password toggle */
+    .pw-toggle {
+      position: absolute;
+      right: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-color);
+      font-size: 1rem;
+      padding: 0;
+      transition: color 0.2s;
+    }
+
+    .pw-toggle:hover { color: var(--first-color); }
+
+    /* error / hint messages */
+    .login-feedback {
+      font-size: 0.72rem;
+      font-weight: 600;
+      min-height: 1rem;
+      margin-top: 0.4rem;
+      padding-left: 0.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 0.25s, transform 0.25s;
+    }
+
+    .login-feedback.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .login-feedback.error { color: hsl(0, 80%, 55%); }
+    .login-feedback.hint  { color: var(--first-color); }
+    .login-feedback i { font-size: 0.85rem; }
+
+    /* shake animation on wrong input */
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-6px); }
+      40%      { transform: translateX(6px); }
+      60%      { transform: translateX(-4px); }
+      80%      { transform: translateX(4px); }
+    }
+
+    .login-input.shake { animation: shake 0.4s ease; }
+
+    /* submit button */
+    .login-btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--first-color);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: var(--body-font);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px hsla(230,100%,50%,0.28);
+      letter-spacing: 0.01em;
+    }
+
+    .login-btn:hover { background: hsl(230,100%,42%); transform: translateY(-1px); box-shadow: 0 6px 20px hsla(230,100%,50%,0.35); }
+    .login-btn:active { transform: translateY(0); }
+    .login-btn i { font-size: 1rem; }
+
+    /* success state */
+    .login-btn.success { background: var(--second-color); box-shadow: 0 4px 14px hsla(150,100%,38%,0.3); }
+
+    /* footer note */
+    .login-footer-note {
+      text-align: center;
+      margin-top: 1.25rem;
+      font-size: 0.68rem;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .login-footer-note i { font-size: 0.8rem; color: var(--first-color); }
+
+    /* ══════════════════════════════════════════
        MESSAGES PAGE
     ══════════════════════════════════════════ */
-    #messages-page { display: block; }
+    #messages-page { display: none; }
 
     /* dot-grid background */
     #messages-page::before {
@@ -822,6 +1143,89 @@
 <body>
 
 <!-- ═══════════════════════════════════════════════════
+     LOGIN PAGE
+═══════════════════════════════════════════════════ -->
+<div id="login-page">
+  <div class="login-orb login-orb-1"></div>
+  <div class="login-orb login-orb-2"></div>
+
+  <div class="login-card">
+    <div class="login-accent"></div>
+    <div class="login-body">
+
+      <!-- logo row -->
+      <div class="login-logo">
+        <div class="login-logo-icon"><i class="ri-message-3-fill"></i></div>
+        <div class="login-logo-text">
+          <span class="login-logo-title">CTO - CDP</span>
+          <span class="login-logo-sub">FAREWELL EDITION</span>
+        </div>
+        <div class="login-groups">
+          <span class="login-group-pill lexi">LEXI</span>
+          <span class="login-group-pill msil">MSIL</span>
+        </div>
+      </div>
+
+      <h1 class="login-heading">Welcome back,<br><span></span></h1>
+      <p class="login-sub">Enter the name of the person this is all about to unlock the messages.</p>
+
+      <!-- name field -->
+      <div class="login-field">
+        <label class="login-label" for="login-name-input">
+          <i class="ri-user-line" style="margin-right:0.25rem"></i>Your name
+        </label>
+        <div class="login-input-wrap">
+          <input
+            class="login-input"
+            id="login-name-input"
+            type="text"
+            placeholder="Who is this surprise for?"
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <i class="input-icon ri-user-smile-line"></i>
+        </div>
+      </div>
+
+      <!-- secret code field -->
+      <div class="login-field">
+        <label class="login-label" for="login-pw-input">
+          <i class="ri-lock-line" style="margin-right:0.25rem"></i>Secret code
+        </label>
+        <div class="login-input-wrap">
+          <input
+            class="login-input"
+            id="login-pw-input"
+            type="password"
+            placeholder="Think… it's someone's name 🤔"
+            autocomplete="off"
+          >
+          <i class="input-icon ri-lock-line"></i>
+          <button class="pw-toggle" id="pw-toggle" type="button" tabindex="-1">
+            <i class="ri-eye-off-line" id="pw-toggle-icon"></i>
+          </button>
+        </div>
+        <div class="login-feedback" id="login-feedback">
+          <i class="ri-information-line" id="feedback-icon"></i>
+          <span id="feedback-text"></span>
+        </div>
+      </div>
+
+      <button class="login-btn" id="login-btn" onclick="attemptLogin()">
+        <i class="ri-arrow-right-circle-line"></i>
+        Open Messages
+      </button>
+
+      <p class="login-footer-note">
+        <i class="ri-heart-fill"></i>
+        Something special is waiting inside
+      </p>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
      FLOATING TOOLTIP (shared, JS-positioned)
 ═══════════════════════════════════════════════════ -->
 <div id="floating-tooltip">
@@ -937,6 +1341,88 @@
      JAVASCRIPT
 ═══════════════════════════════════════════════════ -->
 <script>
+  /* ─────────────────────────────────────────────────
+     LOGIN
+  ───────────────────────────────────────────────── */
+  const SECRET = "karthick";   // ← the magic word
+  let wrongAttempts = 0;
+
+  const errorMessages = [
+    { icon: "ri-question-line",      msg: "Hmm, that doesn't ring a bell… 🤔",          cls: "error" },
+    { icon: "ri-emotion-sad-line",   msg: "Nope! Think harder — it's a name you know.",  cls: "error" },
+    { icon: "ri-lightbulb-line",     msg: "Hint: whose farewell is this page for? 😏",    cls: "hint"  },
+    { icon: "ri-emotion-laugh-line", msg: "It's literally the name in the title! 😂",     cls: "hint"  },
+  ];
+
+  function showFeedback(icon, msg, cls) {
+    const fb   = document.getElementById("login-feedback");
+    const ico  = document.getElementById("feedback-icon");
+    const text = document.getElementById("feedback-text");
+    fb.className   = "login-feedback show " + cls;
+    ico.className  = icon;
+    text.textContent = msg;
+  }
+
+  function attemptLogin() {
+    const nameVal = document.getElementById("login-name-input").value.trim();
+    const pwVal   = document.getElementById("login-pw-input").value.trim().toLowerCase();
+    const pwInput = document.getElementById("login-pw-input");
+    const btn     = document.getElementById("login-btn");
+
+    if (pwVal === SECRET) {
+      // ── SUCCESS ──
+      showFeedback("ri-check-line", "That's the one! 🎉 Opening messages…", "hint");
+      btn.innerHTML  = `<i class="ri-check-line"></i> Welcome, ${nameVal || "Karthick"}!`;
+      btn.classList.add("success");
+      btn.disabled   = true;
+
+      setTimeout(() => {
+        const loginPage = document.getElementById("login-page");
+        const msgPage   = document.getElementById("messages-page");
+        loginPage.classList.add("exit");
+        msgPage.style.display = "block";
+        // small extra delay so messages page animates in after login exits
+        setTimeout(() => { loginPage.style.display = "none"; }, 520);
+      }, 800);
+
+    } else {
+      // ── WRONG ──
+      wrongAttempts = Math.min(wrongAttempts, errorMessages.length - 1);
+      const err = errorMessages[wrongAttempts];
+      showFeedback(err.icon, err.msg, err.cls);
+      wrongAttempts++;
+
+      pwInput.classList.remove("shake");
+      // force reflow to restart animation
+      void pwInput.offsetWidth;
+      pwInput.classList.add("shake");
+      pwInput.value = "";
+      setTimeout(() => pwInput.classList.remove("shake"), 400);
+    }
+  }
+
+  // Enter key support
+  document.addEventListener("DOMContentLoaded", () => {
+    ["login-name-input", "login-pw-input"].forEach(id => {
+      document.getElementById(id).addEventListener("keydown", e => {
+        if (e.key === "Enter") attemptLogin();
+      });
+    });
+
+    // password toggle
+    document.getElementById("pw-toggle").addEventListener("click", () => {
+      const inp  = document.getElementById("login-pw-input");
+      const icon = document.getElementById("pw-toggle-icon");
+      if (inp.type === "password") {
+        inp.type      = "text";
+        icon.className = "ri-eye-line";
+      } else {
+        inp.type      = "password";
+        icon.className = "ri-eye-off-line";
+      }
+    });
+  });
+
   /* ─────────────────────────────────────────────────
      PROFILES DATA
      Replace each `message` value with the real text
