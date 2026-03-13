@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.0.1/remixicon.css">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <title>Messages — Farewell Karthik</title>
+  <title>Messages — Farewell Karthick</title>
   <style>
     :root {
       --first-color:       hsl(230, 100%, 50%);
@@ -55,12 +55,12 @@ img { display: block; max-width: 100%; height: auto; }
 .login-card {
   position: relative; z-index: 1; width: 100%; max-width: 400px;
   background: var(--container-color); border: 1px solid var(--border-color);
-  border-radius: 1.75rem; box-shadow: var(--shadow-lg); overflow: hidden;
+  border-radius: 1.75rem; box-shadow: var(--shadow-lg);
   animation: cardIn 0.65s cubic-bezier(0.34,1.3,0.64,1) forwards;
 }
 @keyframes cardIn { from { opacity: 0; transform: translateY(28px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-.login-accent { height: 4px; background: linear-gradient(90deg, var(--first-color), hsl(200,100%,60%), var(--second-color)); }
+.login-accent { height: 4px; background: linear-gradient(90deg, var(--first-color), hsl(200,100%,60%), var(--second-color)); border-radius: 1.75rem 1.75rem 0 0; }
 .login-body { padding: 2.25rem 2rem 2rem; }
 .login-logo { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; }
 .login-logo-icon { width: 40px; height: 40px; background: var(--first-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #fff; flex-shrink: 0; box-shadow: 0 4px 12px hsla(230,100%,50%,0.3); }
@@ -78,7 +78,8 @@ img { display: block; max-width: 100%; height: auto; }
 .login-label { display: block; font-size: 0.72rem; font-weight: 600; color: var(--title-color); letter-spacing: 0.03em; margin-bottom: 0.4rem; }
 .login-input-wrap { position: relative; }
 .login-input-wrap i.input-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--text-color); pointer-events: none; transition: color 0.2s; }
-.login-input { width: 100%; padding: 0.7rem 1rem 0.7rem 2.6rem; border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--body-color); font-family: var(--body-font); font-size: 0.88rem; font-weight: 500; color: var(--title-color); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+.login-input { width: 100%; padding: 0.7rem 1rem 0.7rem 2.6rem; border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--body-color); font-family: var(--body-font); font-size: 0.88rem; font-weight: 500; color: var(--title-color); outline: none; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none; appearance: none; }
+.login-input.has-toggle { padding-right: 2.8rem; }
 .login-input::placeholder { color: var(--text-color); opacity: 0.6; }
 .login-input:focus { border-color: var(--first-color); background: var(--container-color); box-shadow: 0 0 0 3px hsla(230,100%,50%,0.1); }
 .login-input-wrap:focus-within i.input-icon { color: var(--first-color); }
@@ -156,7 +157,13 @@ img { display: block; max-width: 100%; height: auto; }
 .topbar-count { font-size: 0.72rem; font-weight: 600; background: var(--first-color); color: #fff; padding: 0.2rem 0.55rem; border-radius: 20px; }
 .search-wrap { flex: 1; max-width: 320px; position: relative; margin-left: auto; }
 .search-wrap i { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--text-color); pointer-events: none; }
-.search-input { width: 100%; padding: 0.5rem 1rem 0.5rem 2.4rem; border: 1px solid var(--border-color); border-radius: 10px; background: var(--container-color); font-family: var(--body-font); font-size: 0.82rem; color: var(--title-color); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+.search-input { width: 100%; padding: 0.5rem 1rem 0.5rem 2.4rem; border: 1px solid var(--border-color); border-radius: 10px; background: var(--container-color); font-family: var(--body-font); font-size: 0.82rem; color: var(--title-color); outline: none; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none; appearance: none; }
+.search-input::-webkit-search-cancel-button,
+.search-input::-webkit-search-decoration,
+.search-input::-webkit-search-results-button,
+.search-input::-webkit-search-results-decoration { display: none; -webkit-appearance: none; }
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events: none; position: absolute; right: 0; }
 .search-input:focus { border-color: var(--first-color); box-shadow: 0 0 0 3px hsla(230,100%,50%,0.1); }
 .filter-tabs { display: flex; gap: 0.4rem; }
 .filter-tab { font-family: var(--body-font); font-size: 0.75rem; font-weight: 600; padding: 0.35rem 0.85rem; border-radius: 8px; border: 1px solid var(--border-color); background: transparent; color: var(--text-color); cursor: pointer; transition: all 0.15s; }
@@ -211,8 +218,8 @@ img { display: block; max-width: 100%; height: auto; }
 .ft-group-badge.lexi { background: var(--first-color-light); color: var(--first-color); }
 .ft-group-badge.msil { background: var(--msil-color-light); color: var(--msil-color); }
 .ft-time { font-size: 0.68rem; color: var(--text-color); }
-.ft-avatar { width: 60px; height: 60px; background: var(--gray-color); border-radius: 50%; overflow: hidden; display: flex; justify-content: center; align-items: flex-end; margin: 0 auto 0.65rem; position: relative; }
-.ft-avatar img { width: 56px; }
+.ft-avatar { width: 60px; height: 60px; background: var(--gray-color); border-radius: 50%; display: flex; justify-content: center; align-items: flex-end; margin: 0 auto 0.65rem; position: relative; overflow: visible; }
+.ft-avatar img { width: 56px; border-radius: 50%; overflow: hidden; }
 .ft-avatar-dot { width: 10px; height: 10px; background: var(--second-color); border-radius: 50%; border: 2px solid var(--container-color); position: absolute; bottom: 2px; right: 2px; }
 .ft-body { text-align: center; }
 .ft-name { font-size: 0.95rem; font-weight: 700; color: var(--title-color); margin-bottom: 0.15rem; letter-spacing: -0.01em; }
@@ -321,7 +328,7 @@ img { display: block; max-width: 100%; height: auto; }
       <div class="login-field">
         <label class="login-label" for="login-pw-input"><i class="ri-lock-line" style="margin-right:.25rem"></i>Secret code</label>
         <div class="login-input-wrap">
-          <input class="login-input" id="login-pw-input" type="password" placeholder="Enter the secret code…" autocomplete="off">
+          <input class="login-input has-toggle" id="login-pw-input" type="password" placeholder="Enter the secret code…" autocomplete="off">
           <i class="input-icon ri-lock-line"></i>
           <button class="pw-toggle" id="pw-toggle" type="button" tabindex="-1"><i class="ri-eye-off-line" id="pw-toggle-icon"></i></button>
         </div>
@@ -356,7 +363,7 @@ img { display: block; max-width: 100%; height: auto; }
       <div class="editor-preview-accent"></div>
       <div class="editor-preview-body">
         <div class="editor-preview-chip"><span class="editor-preview-chip-dot"></span><span id="preview-sender-text">From — · —</span></div>
-        <div class="editor-preview-title">Farewell, <span>Karthik!</span></div>
+        <div class="editor-preview-title">Farewell, <span>Karthick!</span></div>
         <div class="editor-preview-text placeholder-text" id="preview-text">Your message will appear here as you type…</div>
       </div>
     </div>
@@ -430,7 +437,7 @@ img { display: block; max-width: 100%; height: auto; }
       <div class="card__img-area" id="card-img-area"></div>
       <div class="card__body">
         <div class="card__sender"><span class="card__sender-dot"></span><span id="card-sender-text">From … · LEXI</span></div>
-        <h1 class="card__title">Farewell, <span>Karthik!</span></h1>
+        <h1 class="card__title">Farewell, <span>Karthick!</span></h1>
         <div class="card__hint"><i class="ri-hand-coin-line"></i><span>Tap the card to read the message</span></div>
         <div class="card__divider"></div>
         <p class="card__description" id="card-message"></p>
@@ -450,9 +457,9 @@ img { display: block; max-width: 100%; height: auto; }
 
 <script>
   /* ─── CONFIG — edit passwords here ─── */
-  const KARTHIK_NAME     = "karthik";    // Karthik logs in with this name (case-insensitive)
-  const KARTHIK_PASSWORD = "karthik";    // Karthik's own secret code
-  const TEAM_PASSWORD    = "lexi@2025";  // shared code for all 25 team members
+  const KARTHIK_NAME     = "karthick";   // Karthick types his own name
+  const KARTHIK_PASSWORD = "karthick";   // Karthick's own secret code
+  const TEAM_PASSWORD    = "lexi@2026";  // shared code for all 28 team members
   const LS_PREFIX        = "farewell_v1_";
 
   /* ─── PROFILES ─── */
@@ -482,6 +489,9 @@ img { display: block; max-width: 100%; height: auto; }
     { name: "Deepika",      group: "LEXI", img: "assets/img/Memoji2.png" },
     { name: "Sohel",        group: "LEXI", img: "assets/img/Memoji4.png" },
     { name: "Subhadhitya",  group: "LEXI", img: "assets/img/Memoji3.png" },
+    { name: "Dolly",        group: "LEXI", img: "assets/img/Memoji2.png" },
+    { name: "Amal",         group: "LEXI", img: "assets/img/Memoji4.png" },
+    { name: "Ananya",       group: "LEXI", img: "assets/img/Memoji1.png" },
   ];
 
   /* ─── UTILS ─── */
@@ -515,8 +525,8 @@ img { display: block; max-width: 100%; height: auto; }
 
     // Karthik
     if (nl === KARTHIK_NAME && pl === KARTHIK_PASSWORD) {
-      showFeedback("ri-check-line", "Welcome, Karthik! 🎉 Loading your messages…", "hint");
-      btn.innerHTML = `<i class="ri-check-line"></i> Welcome, Karthik!`; btn.classList.add("success"); btn.disabled = true;
+      showFeedback("ri-check-line", "Welcome, Karthick! 🎉 Loading your messages…", "hint");
+      btn.innerHTML = `<i class="ri-check-line"></i> Welcome, Karthick!`; btn.classList.add("success"); btn.disabled = true;
       setTimeout(() => showPage("messages"), 900);
       return;
     }
@@ -559,7 +569,7 @@ img { display: block; max-width: 100%; height: auto; }
     currentEditorProfile = p;
     document.getElementById("editor-avatar").textContent = initials(p.name);
     document.getElementById("editor-topbar-name").textContent = p.name;
-    document.getElementById("editor-topbar-sub").textContent = p.group + " · Farewell message for Karthik";
+    document.getElementById("editor-topbar-sub").textContent = p.group + " · Farewell message for Karthick";
     document.getElementById("preview-sender-text").textContent = `From ${p.name} · ${p.group}`;
     const saved = getMsg(p.name);
     const ta = document.getElementById("editor-textarea");
@@ -596,7 +606,7 @@ img { display: block; max-width: 100%; height: auto; }
     const text = document.getElementById("editor-textarea").value.trim();
     setMsg(currentEditorProfile.name, text);
     updateStatusChip(text);
-    showToast(text ? "Message saved! Karthik will love it 🎉" : "Message cleared.", !!text);
+    showToast(text ? "Message saved! Karthick will love it 🎉" : "Message cleared.", !!text);
     const btn = document.getElementById("save-btn");
     btn.classList.add("saved"); btn.innerHTML = `<i class="ri-check-line"></i> Saved!`;
     setTimeout(() => { btn.classList.remove("saved"); btn.innerHTML = `<i class="ri-save-line"></i> Save message`; }, 2200);
