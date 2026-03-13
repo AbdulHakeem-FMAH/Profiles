@@ -1,15 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.0.1/remixicon.css">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <title>Messages — Farewell Karthick</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Messages — Farewell Karthik</title>
   <style>
-    /* ══════════════════════════════════════════
-       DESIGN TOKENS
-    ══════════════════════════════════════════ */
     :root {
       --first-color:       hsl(230, 100%, 50%);
       --first-color-light: hsl(230, 100%, 96%);
@@ -23,1141 +21,287 @@
       --body-color:        hsl(230, 40%, 97%);
       --container-color:   hsl(0, 0%, 100%);
       --body-font:         "Syne", sans-serif;
-      --shadow-sm:  0 2px 8px  hsla(230,40%,20%,0.08);
-      --shadow-md:  0 8px 32px hsla(230,40%,20%,0.14);
+      --shadow-sm:  0 2px 8px   hsla(230,40%,20%,0.08);
+      --shadow-md:  0 8px 32px  hsla(230,40%,20%,0.14);
       --shadow-lg:  0 20px 60px hsla(230,40%,20%,0.22);
     }
 
-    *, ::before, ::after { box-sizing: border-box; padding: 0; margin: 0; }
-
-    body {
-      font-family: var(--body-font);
-      background-color: var(--body-color);
-      color: var(--text-color);
-      min-height: 100vh;
-    }
-
-    a { text-decoration: none; }
-    img { display: block; max-width: 100%; height: auto; }
-
-    /* ══════════════════════════════════════════
-       LOGIN PAGE
-    ══════════════════════════════════════════ */
-    #login-page {
-      position: fixed;
-      inset: 0;
-      z-index: 900;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--body-color);
-      padding: 1.5rem;
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-    #login-page.exit {
-      opacity: 0;
-      transform: translateY(-24px) scale(0.98);
-      pointer-events: none;
-    }
-
-    /* dot-grid also on login */
-    #login-page::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image: radial-gradient(hsla(230,40%,60%,0.15) 1px, transparent 1px);
-      background-size: 28px 28px;
-      pointer-events: none;
-    }
-
-    /* floating orbs behind the card */
-    .login-orb {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(60px);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .login-orb-1 {
-      width: 320px; height: 320px;
-      background: hsla(230,100%,60%,0.12);
-      top: -60px; left: -60px;
-      animation: orb-drift 8s ease-in-out infinite alternate;
-    }
-
-    .login-orb-2 {
-      width: 260px; height: 260px;
-      background: hsla(200,100%,60%,0.1);
-      bottom: -40px; right: -40px;
-      animation: orb-drift 10s ease-in-out infinite alternate-reverse;
-    }
-
-    @keyframes orb-drift {
-      from { transform: translate(0, 0); }
-      to   { transform: translate(30px, 20px); }
-    }
-
-    /* login card */
-    .login-card {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 400px;
-      background: var(--container-color);
-      border: 1px solid var(--border-color);
-      border-radius: 1.75rem;
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
-      animation: loginCardIn 0.65s cubic-bezier(0.34,1.3,0.64,1) forwards;
-    }
-
-    @keyframes loginCardIn {
-      from { opacity: 0; transform: translateY(28px) scale(0.96); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    /* top gradient bar */
-    .login-accent {
-      height: 4px;
-      background: linear-gradient(90deg, var(--first-color), hsl(200,100%,60%), var(--second-color));
-    }
-
-    .login-body {
-      padding: 2.25rem 2rem 2rem;
-    }
-
-    /* logo row */
-    .login-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 2rem;
-    }
-
-    .login-logo-icon {
-      width: 40px; height: 40px;
-      background: var(--first-color);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      color: #fff;
-      flex-shrink: 0;
-      box-shadow: 0 4px 12px hsla(230,100%,50%,0.3);
-    }
-
-    .login-logo-text {
-      display: flex;
-      flex-direction: column;
-      gap: 0.1rem;
-    }
-
-    .login-logo-title {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--title-color);
-      letter-spacing: -0.02em;
-      line-height: 1;
-    }
-
-    .login-logo-sub {
-      font-size: 0.62rem;
-      font-weight: 600;
-      color: var(--text-color);
-      letter-spacing: 0.06em;
-    }
-
-    /* group pills */
-    .login-groups {
-      display: flex;
-      gap: 0.35rem;
-      margin-left: auto;
-    }
-
-    .login-group-pill {
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      padding: 0.18rem 0.55rem;
-      border-radius: 20px;
-    }
-
-    .login-group-pill.lexi { background: var(--first-color-light); color: var(--first-color); }
-    .login-group-pill.msil { background: var(--msil-color-light);  color: var(--msil-color); }
-
-    /* heading */
-    .login-heading {
-      font-size: 1.45rem;
-      font-weight: 700;
-      color: var(--title-color);
-      letter-spacing: -0.03em;
-      line-height: 1.2;
-      margin-bottom: 0.4rem;
-    }
-
-    .login-heading span {
-      background: linear-gradient(135deg, var(--first-color), hsl(200,100%,60%));
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .login-sub {
-      font-size: 0.82rem;
-      color: var(--text-color);
-      line-height: 1.6;
-      margin-bottom: 1.75rem;
-    }
-
-    /* input group */
-    .login-field {
-      margin-bottom: 1rem;
-      position: relative;
-    }
-
-    .login-label {
-      display: block;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--title-color);
-      letter-spacing: 0.03em;
-      margin-bottom: 0.4rem;
-    }
-
-    .login-input-wrap {
-      position: relative;
-    }
-
-    .login-input-wrap i.input-icon {
-      position: absolute;
-      left: 0.9rem;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 1rem;
-      color: var(--text-color);
-      pointer-events: none;
-      transition: color 0.2s;
-    }
-
-    .login-input {
-      width: 100%;
-      padding: 0.7rem 1rem 0.7rem 2.6rem;
-      border: 1.5px solid var(--border-color);
-      border-radius: 10px;
-      background: var(--body-color);
-      font-family: var(--body-font);
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: var(--title-color);
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-    }
-
-    .login-input::placeholder { color: var(--text-color); opacity: 0.6; }
-
-    .login-input:focus {
-      border-color: var(--first-color);
-      background: var(--container-color);
-      box-shadow: 0 0 0 3px hsla(230,100%,50%,0.1);
-    }
-
-    .login-input:focus + .input-icon,
-    .login-input-wrap:focus-within i.input-icon { color: var(--first-color); }
-
-    /* password toggle */
-    .pw-toggle {
-      position: absolute;
-      right: 0.9rem;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--text-color);
-      font-size: 1rem;
-      padding: 0;
-      transition: color 0.2s;
-    }
-
-    .pw-toggle:hover { color: var(--first-color); }
-
-    /* error / hint messages */
-    .login-feedback {
-      font-size: 0.72rem;
-      font-weight: 600;
-      min-height: 1rem;
-      margin-top: 0.4rem;
-      padding-left: 0.1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      opacity: 0;
-      transform: translateY(-4px);
-      transition: opacity 0.25s, transform 0.25s;
-    }
-
-    .login-feedback.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .login-feedback.error { color: hsl(0, 80%, 55%); }
-    .login-feedback.hint  { color: var(--first-color); }
-    .login-feedback i { font-size: 0.85rem; }
-
-    /* shake animation on wrong input */
-    @keyframes shake {
-      0%,100% { transform: translateX(0); }
-      20%      { transform: translateX(-6px); }
-      40%      { transform: translateX(6px); }
-      60%      { transform: translateX(-4px); }
-      80%      { transform: translateX(4px); }
-    }
-
-    .login-input.shake { animation: shake 0.4s ease; }
-
-    /* submit button */
-    .login-btn {
-      width: 100%;
-      padding: 0.8rem;
-      background: var(--first-color);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-family: var(--body-font);
-      font-size: 0.88rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      box-shadow: 0 4px 14px hsla(230,100%,50%,0.28);
-      letter-spacing: 0.01em;
-    }
-
-    .login-btn:hover { background: hsl(230,100%,42%); transform: translateY(-1px); box-shadow: 0 6px 20px hsla(230,100%,50%,0.35); }
-    .login-btn:active { transform: translateY(0); }
-    .login-btn i { font-size: 1rem; }
-
-    /* success state */
-    .login-btn.success { background: var(--second-color); box-shadow: 0 4px 14px hsla(150,100%,38%,0.3); }
-
-    /* footer note */
-    .login-footer-note {
-      text-align: center;
-      margin-top: 1.25rem;
-      font-size: 0.68rem;
-      color: var(--text-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-    }
-
-    .login-footer-note i { font-size: 0.8rem; color: var(--first-color); }
-
-    /* ══════════════════════════════════════════
-       MESSAGES PAGE
-    ══════════════════════════════════════════ */
-    #messages-page { display: none; }
-
-    /* dot-grid background */
-    #messages-page::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image: radial-gradient(hsla(230,40%,60%,0.13) 1px, transparent 1px);
-      background-size: 28px 28px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 200;
-      background: hsla(230,40%,97%,0.88);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-color);
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .topbar-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--title-color);
-      letter-spacing: -0.02em;
-      white-space: nowrap;
-    }
-
-    .topbar-count {
-      font-size: 0.72rem;
-      font-weight: 600;
-      background: var(--first-color);
-      color: #fff;
-      padding: 0.2rem 0.55rem;
-      border-radius: 20px;
-    }
-
-    .search-wrap {
-      flex: 1;
-      max-width: 320px;
-      position: relative;
-      margin-left: auto;
-    }
-
-    .search-wrap i {
-      position: absolute;
-      left: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 1rem;
-      color: var(--text-color);
-      pointer-events: none;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 0.5rem 1rem 0.5rem 2.4rem;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      background: var(--container-color);
-      font-family: var(--body-font);
-      font-size: 0.82rem;
-      color: var(--title-color);
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .search-input:focus {
-      border-color: var(--first-color);
-      box-shadow: 0 0 0 3px hsla(230,100%,50%,0.1);
-    }
-
-    .filter-tabs { display: flex; gap: 0.4rem; }
-
-    .filter-tab {
-      font-family: var(--body-font);
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.35rem 0.85rem;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      background: transparent;
-      color: var(--text-color);
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .filter-tab.active,
-    .filter-tab:hover { background: var(--first-color); border-color: var(--first-color); color: #fff; }
-
-    .filter-tab[data-group="MSIL"].active,
-    .filter-tab[data-group="MSIL"]:hover { background: var(--msil-color); border-color: var(--msil-color); }
-
-    .page-wrapper {
-      position: relative;
-      z-index: 1;
-      padding: 2rem 2rem 5rem;
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    .empty-state {
-      display: none;
-      text-align: center;
-      padding: 3rem 1rem;
-      color: var(--text-color);
-      font-size: 0.9rem;
-    }
-
-    .profiles-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 1.5rem 1.25rem;
-    }
-
-    /* profile card */
-    .card__article {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      animation: fadeUp 0.4s ease both;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .avatar-wrap { position: relative; cursor: pointer; }
-
-    .avatar-wrap::before {
-      content: "";
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      z-index: 0;
-      opacity: 0;
-      transition: opacity 0.25s;
-    }
-
-    .card__article[data-group="LEXI"] .avatar-wrap::before {
-      background: conic-gradient(var(--first-color), hsl(200,100%,60%), var(--first-color));
-    }
-
-    .card__article[data-group="MSIL"] .avatar-wrap::before {
-      background: conic-gradient(var(--msil-color), hsl(320,80%,65%), var(--msil-color));
-    }
-
-    .card__article:hover .avatar-wrap::before {
-      opacity: 1;
-      animation: spin-ring 3s linear infinite;
-    }
-
-    @keyframes spin-ring { to { transform: rotate(360deg); } }
-
-    .card__profile {
-      width: 72px;
-      height: 72px;
-      background-color: var(--gray-color);
-      border-radius: 50%;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      border: 3px solid var(--container-color);
-      box-shadow: var(--shadow-sm);
-      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s;
-      position: relative;
-      z-index: 1;
-    }
-
-    .card__profile img { width: 68px; }
-
-    .card__article:hover .card__profile {
-      transform: translateY(-4px) scale(1.06);
-      box-shadow: var(--shadow-md);
-    }
-
-    .unread-badge {
-      position: absolute;
-      top: -2px; right: -2px;
-      width: 18px; height: 18px;
-      background: hsl(0,90%,58%);
-      color: #fff;
-      font-size: 0.6rem;
-      font-weight: 700;
-      border-radius: 50%;
-      border: 2px solid var(--body-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-    }
-
-    .online-dot {
-      position: absolute;
-      bottom: 2px; right: 2px;
-      width: 10px; height: 10px;
-      background: var(--second-color);
-      border-radius: 50%;
-      border: 2px solid var(--container-color);
-      z-index: 10;
-    }
-
-    .online-dot::after {
-      content: "";
-      position: absolute;
-      inset: -3px;
-      border-radius: 50%;
-      background: var(--second-color);
-      opacity: 0.35;
-      animation: pulse-dot 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse-dot {
-      0%,100% { transform: scale(1); opacity: 0.35; }
-      50%      { transform: scale(1.7); opacity: 0; }
-    }
-
-    .card__name-label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--title-color);
-      text-align: center;
-      letter-spacing: -0.01em;
-      line-height: 1.2;
-    }
-
-    .card__group-pill {
-      font-size: 0.6rem;
-      font-weight: 600;
-      padding: 0.15rem 0.5rem;
-      border-radius: 20px;
-      letter-spacing: 0.04em;
-    }
-
-    .card__article[data-group="LEXI"] .card__group-pill {
-      background: var(--first-color-light);
-      color: var(--first-color);
-    }
-
-    .card__article[data-group="MSIL"] .card__group-pill {
-      background: var(--msil-color-light);
-      color: var(--msil-color);
-    }
-
-    .card__initials {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; font-weight: 700; color: var(--first-color);
-    }
-
-    /* celebrate button */
-    .celebrate-btn-container { text-align: center; margin-top: 2.5rem; }
-
-    .celebrate-btn {
-      font-family: var(--body-font);
-      font-size: 0.8rem;
-      font-weight: 600;
-      background: var(--first-color);
-      padding: 0.7rem 1.4rem;
-      border-radius: 0.75rem;
-      color: #fff;
-      display: inline-flex;
-      align-items: center;
-      column-gap: 0.5rem;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.2s, transform 0.15s;
-      text-decoration: none;
-    }
-
-    .celebrate-btn:hover { background: hsl(230,100%,42%); transform: scale(1.03); }
-    .celebrate-btn i { font-size: 1rem; }
-
-    /* ── FLOATING TOOLTIP ── */
-    #floating-tooltip {
-      position: fixed;
-      z-index: 9999;
-      pointer-events: none;
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.2s, transform 0.25s cubic-bezier(0.34,1.4,0.64,1);
-      width: 230px;
-    }
-
-    #floating-tooltip.visible {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-
-    #ft-content {
-      background: var(--container-color);
-      border: 1px solid var(--border-color);
-      border-radius: 1rem;
-      box-shadow: var(--shadow-lg);
-      padding: 1.25rem 1rem;
-      position: relative;
-    }
-
-    #ft-arrow {
-      position: absolute;
-      width: 14px; height: 14px;
-      background: var(--container-color);
-      transform: rotate(45deg);
-      border-radius: 0 0 3px 0;
-    }
-
-    #ft-arrow.arrow-down {
-      bottom: -8px;
-      border-right: 1px solid var(--border-color);
-      border-bottom: 1px solid var(--border-color);
-      top: auto;
-    }
-
-    #ft-arrow.arrow-up {
-      top: -8px;
-      border-left: 1px solid var(--border-color);
-      border-top: 1px solid var(--border-color);
-      bottom: auto;
-    }
-
-    .ft-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-
-    .ft-group-badge {
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      padding: 0.2rem 0.6rem;
-      border-radius: 20px;
-    }
-
-    .ft-group-badge.lexi { background: var(--first-color-light); color: var(--first-color); }
-    .ft-group-badge.msil { background: var(--msil-color-light);  color: var(--msil-color); }
-
-    .ft-time { font-size: 0.68rem; color: var(--text-color); }
-
-    .ft-avatar {
-      width: 60px; height: 60px;
-      background: var(--gray-color);
-      border-radius: 50%;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      margin: 0 auto 0.65rem;
-      position: relative;
-    }
-
-    .ft-avatar img { width: 56px; }
-
-    .ft-avatar-dot {
-      width: 10px; height: 10px;
-      background: var(--second-color);
-      border-radius: 50%;
-      border: 2px solid var(--container-color);
-      position: absolute;
-      bottom: 2px; right: 2px;
-    }
-
-    .ft-body { text-align: center; }
-
-    .ft-name {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--title-color);
-      margin-bottom: 0.15rem;
-      letter-spacing: -0.01em;
-    }
-
-    .ft-sub { font-size: 0.72rem; color: var(--text-color); margin-bottom: 0.85rem; }
-
-    .ft-btn {
-      font-family: var(--body-font);
-      font-size: 0.75rem;
-      font-weight: 600;
-      background: var(--first-color);
-      padding: 0.55rem 1rem;
-      border-radius: 0.6rem;
-      color: #fff;
-      display: inline-flex;
-      align-items: center;
-      column-gap: 0.35rem;
-      cursor: pointer;
-      border: none;
-      transition: background-color 0.2s, transform 0.15s;
-    }
-
-    .ft-btn:hover { background: hsl(230,100%,42%); transform: scale(1.03); }
-    .ft-btn i { font-size: 0.85rem; }
-
-    .card__initials-sm {
-      width: 56px; height: 56px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; font-weight: 700; color: var(--first-color);
-    }
-
-    /* ══════════════════════════════════════════
-       CARD OVERLAY (full-screen)
-    ══════════════════════════════════════════ */
-    #card-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 500;
-      background: var(--body-color);
-      overflow-y: auto;
-    }
-
-    #card-overlay.visible { display: block; }
-
-    /* dot-grid on overlay too */
-    #card-overlay::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image: radial-gradient(hsla(230,40%,60%,0.18) 1px, transparent 1px);
-      background-size: 28px 28px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .confetti-wrap {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-      overflow: hidden;
-    }
-
-    .confetti-wrap span {
-      position: absolute;
-      top: -12px;
-      width: 8px; height: 8px;
-      border-radius: 2px;
-      opacity: 0;
-      animation: confetti-fall linear forwards;
-    }
-
-    @keyframes confetti-fall {
-      0%   { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
-      80%  { opacity: 1; }
-      100% { opacity: 0; transform: translateY(105vh) rotate(720deg) scale(0.6); }
-    }
-
-    /* back button */
-    .back-btn {
-      position: fixed;
-      top: 1.25rem;
-      left: 1.5rem;
-      z-index: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-family: var(--body-font);
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-color);
-      background: var(--container-color);
-      border: 1px solid var(--border-color);
-      padding: 0.45rem 0.9rem;
-      border-radius: 10px;
-      box-shadow: var(--shadow-sm);
-      cursor: pointer;
-      transition: color 0.2s, box-shadow 0.2s, transform 0.15s;
-    }
-
-    .back-btn:hover {
-      color: var(--first-color);
-      box-shadow: var(--shadow-md);
-      transform: translateX(-2px);
-    }
-
-    .back-btn i { font-size: 0.95rem; }
-
-    /* card scene */
-    .overlay-scene {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 5rem 1rem 3rem;
-    }
-
-    .from-label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      color: var(--text-color);
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      opacity: 0;
-      transform: translateY(-6px);
-      animation: fadeDown 0.5s 0.2s ease forwards;
-    }
-
-    .from-label::before,
-    .from-label::after {
-      content: "";
-      width: 32px;
-      height: 1px;
-      background: var(--border-color);
-    }
-
-    @keyframes fadeDown { to { opacity: 1; transform: translateY(0); } }
-
-    /* greeting card */
-    .greeting-card {
-      width: 360px;
-      background: var(--container-color);
-      border-radius: 1.5rem;
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
-      cursor: pointer;
-      position: relative;
-      opacity: 0;
-      transform: translateY(24px) scale(0.97);
-      animation: cardIn 0.55s 0.35s cubic-bezier(0.34,1.4,0.64,1) forwards;
-    }
-
-    @keyframes cardIn { to { opacity: 1; transform: translateY(0) scale(1); } }
-
-    .card__accent {
-      height: 4px;
-      background: linear-gradient(90deg, var(--first-color), hsl(200,100%,60%));
-      border-radius: 4px 4px 0 0;
-    }
-
-    .card__img-area {
-      height: 200px;
-      background: var(--body-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .card__img-area::before {
-      content: "";
-      position: absolute;
-      width: 180px; height: 180px;
-      border-radius: 50%;
-      background: radial-gradient(circle, hsla(230,100%,70%,0.15) 0%, transparent 70%);
-      animation: glow-pulse 3s ease-in-out infinite;
-    }
-
-    @keyframes glow-pulse {
-      0%,100% { transform: scale(1);    opacity: 1; }
-      50%      { transform: scale(1.15); opacity: 0.6; }
-    }
-
-    .card__memoji {
-      width: 160px;
-      position: relative;
-      z-index: 1;
-      filter: drop-shadow(0 8px 20px hsla(230,40%,20%,0.18));
-      transform: translateY(8px);
-      transition: transform 0.5s cubic-bezier(0.34,1.4,0.64,1);
-      border-radius: 50%;
-    }
-
-    .greeting-card:hover .card__memoji { transform: translateY(-6px) rotate(-6deg) scale(1.06); }
-
-    /* memoji placeholder (initials circle when no image) */
-    .card__memoji-initials {
-      width: 120px; height: 120px;
-      border-radius: 50%;
-      background: var(--first-color-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--first-color);
-      position: relative;
-      z-index: 1;
-    }
-
-    .card__body { padding: 1.5rem 1.5rem 1.75rem; }
-
-    .card__sender {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      background: var(--first-color-light);
-      color: var(--first-color);
-      padding: 0.2rem 0.65rem;
-      border-radius: 20px;
-      margin-bottom: 0.9rem;
-    }
-
-    .card__sender-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--second-color);
-    }
-
-    .card__title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--title-color);
-      letter-spacing: -0.02em;
-      line-height: 1.25;
-      margin-bottom: 0.75rem;
-    }
-
-    .card__title span {
-      background: linear-gradient(90deg, var(--first-color), hsl(200,100%,60%));
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .card__description {
-      font-size: 0.83rem;
-      line-height: 1.75;
-      color: var(--text-color);
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.55s cubic-bezier(0.4,0,0.2,1),
-                  opacity 0.4s 0.1s ease,
-                  transform 0.4s 0.1s ease;
-      opacity: 0;
-      transform: translateY(8px);
-    }
-
-    .greeting-card.open .card__description {
-      max-height: 400px;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .card__divider {
-      height: 1px;
-      background: var(--border-color);
-      margin: 1rem 0;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s 0.15s ease;
-    }
-
-    .greeting-card.open .card__divider { transform: scaleX(1); }
-
-    .card__hint {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.7rem;
-      font-weight: 500;
-      color: var(--text-color);
-      opacity: 0.7;
-      transition: opacity 0.3s;
-    }
-
-    .greeting-card.open .card__hint { opacity: 0; height: 0; overflow: hidden; }
-
-    .card__hint i { font-size: 0.85rem; animation: tap-nudge 1.6s ease-in-out infinite; }
-
-    @keyframes tap-nudge {
-      0%,100% { transform: scale(1); }
-      50%      { transform: scale(1.25); }
-    }
-
-    .card__footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.9rem 1.5rem;
-      border-top: 1px solid var(--border-color);
-      background: var(--body-color);
-    }
-
-    .card__timestamp {
-      font-size: 0.68rem;
-      color: var(--text-color);
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .card__timestamp i { font-size: 0.8rem; }
-
-    .card__react { display: flex; gap: 0.5rem; }
-
-    .react-btn {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      border: 1px solid var(--border-color);
-      background: var(--container-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: transform 0.2s cubic-bezier(0.34,1.6,0.64,1), box-shadow 0.2s, background 0.2s;
-    }
-
-    .react-btn:hover { transform: scale(1.25); box-shadow: var(--shadow-md); background: var(--first-color-light); }
-
-    .react-btn.active {
-      background: var(--first-color-light);
-      border-color: hsla(230,100%,50%,0.3);
-      animation: pop 0.35s cubic-bezier(0.34,1.6,0.64,1);
-    }
-
-    @keyframes pop {
-      0%   { transform: scale(1); }
-      50%  { transform: scale(1.4); }
-      100% { transform: scale(1.25); }
-    }
-
-    .tagline {
-      margin-top: 1.5rem;
-      font-size: 0.72rem;
-      font-weight: 500;
-      color: var(--text-color);
-      opacity: 0;
-      animation: fadeDown 0.5s 0.8s ease forwards;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .tagline i {
-      font-size: 0.85rem;
-      color: var(--first-color);
-      animation: heartbeat 1.5s ease-in-out infinite;
-    }
-
-    @keyframes heartbeat {
-      0%,100% { transform: scale(1); }
-      25%      { transform: scale(1.25); }
-      50%      { transform: scale(1); }
-      75%      { transform: scale(1.15); }
-    }
-
-    /* ══════════════════════════════════════════
-       RESPONSIVE
-    ══════════════════════════════════════════ */
-    @media screen and (max-width: 700px) {
-      .profiles-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem 1rem; }
-      .filter-tabs { display: none; }
-    }
-
-    @media screen and (max-width: 480px) {
-      .profiles-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem 0.75rem; }
-      .greeting-card { width: calc(100vw - 2rem); }
-    }
+```
+*, ::before, ::after { box-sizing: border-box; padding: 0; margin: 0; }
+
+body { font-family: var(--body-font); background: var(--body-color); color: var(--text-color); min-height: 100vh; }
+a { text-decoration: none; }
+img { display: block; max-width: 100%; height: auto; }
+
+/* ══════════════════════════════════════════ LOGIN ══════════════════════════════════════════ */
+#login-page {
+  position: fixed; inset: 0; z-index: 900;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--body-color); padding: 1.5rem;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+#login-page::before {
+  content: ""; position: fixed; inset: 0;
+  background-image: radial-gradient(hsla(230,40%,60%,0.14) 1px, transparent 1px);
+  background-size: 28px 28px; pointer-events: none;
+}
+#login-page.exit { opacity: 0; transform: translateY(-24px) scale(0.98); pointer-events: none; }
+
+.login-orb { position: fixed; border-radius: 50%; filter: blur(60px); pointer-events: none; z-index: 0; }
+.login-orb-1 { width: 320px; height: 320px; background: hsla(230,100%,60%,0.12); top: -60px; left: -60px; animation: orb-drift 8s ease-in-out infinite alternate; }
+.login-orb-2 { width: 260px; height: 260px; background: hsla(200,100%,60%,0.1); bottom: -40px; right: -40px; animation: orb-drift 10s ease-in-out infinite alternate-reverse; }
+@keyframes orb-drift { from { transform: translate(0,0); } to { transform: translate(30px,20px); } }
+
+.login-card {
+  position: relative; z-index: 1; width: 100%; max-width: 400px;
+  background: var(--container-color); border: 1px solid var(--border-color);
+  border-radius: 1.75rem; box-shadow: var(--shadow-lg); overflow: hidden;
+  animation: cardIn 0.65s cubic-bezier(0.34,1.3,0.64,1) forwards;
+}
+@keyframes cardIn { from { opacity: 0; transform: translateY(28px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+.login-accent { height: 4px; background: linear-gradient(90deg, var(--first-color), hsl(200,100%,60%), var(--second-color)); }
+.login-body { padding: 2.25rem 2rem 2rem; }
+.login-logo { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; }
+.login-logo-icon { width: 40px; height: 40px; background: var(--first-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #fff; flex-shrink: 0; box-shadow: 0 4px 12px hsla(230,100%,50%,0.3); }
+.login-logo-text { display: flex; flex-direction: column; gap: 0.1rem; }
+.login-logo-title { font-size: 0.9rem; font-weight: 700; color: var(--title-color); letter-spacing: -0.02em; line-height: 1; }
+.login-logo-sub { font-size: 0.62rem; font-weight: 600; color: var(--text-color); letter-spacing: 0.06em; }
+.login-groups { display: flex; gap: 0.35rem; margin-left: auto; }
+.login-group-pill { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em; padding: 0.18rem 0.55rem; border-radius: 20px; }
+.login-group-pill.lexi { background: var(--first-color-light); color: var(--first-color); }
+.login-group-pill.msil { background: var(--msil-color-light); color: var(--msil-color); }
+.login-heading { font-size: 1.45rem; font-weight: 700; color: var(--title-color); letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 0.4rem; }
+.login-heading span { background: linear-gradient(135deg, var(--first-color), hsl(200,100%,60%)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.login-sub { font-size: 0.82rem; color: var(--text-color); line-height: 1.6; margin-bottom: 1.75rem; }
+.login-field { margin-bottom: 1rem; }
+.login-label { display: block; font-size: 0.72rem; font-weight: 600; color: var(--title-color); letter-spacing: 0.03em; margin-bottom: 0.4rem; }
+.login-input-wrap { position: relative; }
+.login-input-wrap i.input-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--text-color); pointer-events: none; transition: color 0.2s; }
+.login-input { width: 100%; padding: 0.7rem 1rem 0.7rem 2.6rem; border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--body-color); font-family: var(--body-font); font-size: 0.88rem; font-weight: 500; color: var(--title-color); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+.login-input::placeholder { color: var(--text-color); opacity: 0.6; }
+.login-input:focus { border-color: var(--first-color); background: var(--container-color); box-shadow: 0 0 0 3px hsla(230,100%,50%,0.1); }
+.login-input-wrap:focus-within i.input-icon { color: var(--first-color); }
+.pw-toggle { position: absolute; right: 0.9rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-color); font-size: 1rem; padding: 0; transition: color 0.2s; }
+.pw-toggle:hover { color: var(--first-color); }
+.login-feedback { font-size: 0.72rem; font-weight: 600; min-height: 1rem; margin-top: 0.4rem; display: flex; align-items: center; gap: 0.35rem; opacity: 0; transform: translateY(-4px); transition: opacity 0.25s, transform 0.25s; }
+.login-feedback.show { opacity: 1; transform: translateY(0); }
+.login-feedback.error { color: hsl(0,80%,55%); }
+.login-feedback.hint  { color: var(--first-color); }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+.shake { animation: shake 0.4s ease; }
+.login-btn { width: 100%; padding: 0.8rem; background: var(--first-color); color: #fff; border: none; border-radius: 10px; font-family: var(--body-font); font-size: 0.88rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: background 0.2s, transform 0.15s; box-shadow: 0 4px 14px hsla(230,100%,50%,0.28); }
+.login-btn:hover { background: hsl(230,100%,42%); transform: translateY(-1px); }
+.login-btn.success { background: var(--second-color); }
+.login-footer-note { text-align: center; margin-top: 1.25rem; font-size: 0.68rem; color: var(--text-color); display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
+.login-footer-note i { font-size: 0.8rem; color: var(--first-color); }
+
+/* ══════════════════════════════════════════ EDITOR ══════════════════════════════════════════ */
+#editor-page { display: none; min-height: 100vh; position: relative; }
+#editor-page.active { display: block; }
+#editor-page::before { content: ""; position: fixed; inset: 0; background-image: radial-gradient(hsla(230,40%,60%,0.14) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; z-index: 0; }
+
+.editor-topbar { position: sticky; top: 0; z-index: 200; background: hsla(230,40%,97%,0.9); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); padding: 0.9rem 2rem; display: flex; align-items: center; gap: 1rem; }
+.editor-topbar-left { display: flex; align-items: center; gap: 0.65rem; }
+.editor-avatar { width: 36px; height: 36px; background: var(--first-color-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: var(--first-color); border: 2px solid hsla(230,100%,50%,0.2); flex-shrink: 0; }
+.editor-topbar-name { font-size: 0.9rem; font-weight: 700; color: var(--title-color); letter-spacing: -0.02em; }
+.editor-topbar-sub { font-size: 0.65rem; font-weight: 600; color: var(--text-color); }
+.editor-logout { margin-left: auto; font-family: var(--body-font); font-size: 0.72rem; font-weight: 600; color: var(--text-color); background: var(--container-color); border: 1px solid var(--border-color); padding: 0.4rem 0.85rem; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s, box-shadow 0.2s; }
+.editor-logout:hover { color: var(--first-color); box-shadow: var(--shadow-sm); }
+
+.editor-wrapper { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 2.5rem 2rem 5rem; }
+
+.editor-section-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; color: var(--text-color); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+.editor-section-label::after { content: ""; flex: 1; height: 1px; background: var(--border-color); }
+
+.editor-preview-card { background: var(--container-color); border: 1px solid var(--border-color); border-radius: 1.25rem; overflow: hidden; box-shadow: var(--shadow-sm); margin-bottom: 1.75rem; }
+.editor-preview-accent { height: 3px; background: linear-gradient(90deg, var(--first-color), hsl(200,100%,60%)); }
+.editor-preview-body { padding: 1.25rem 1.25rem 1.5rem; }
+.editor-preview-chip { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; background: var(--first-color-light); color: var(--first-color); padding: 0.18rem 0.6rem; border-radius: 20px; margin-bottom: 0.6rem; }
+.editor-preview-chip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--second-color); }
+.editor-preview-title { font-size: 1.1rem; font-weight: 700; color: var(--title-color); letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+.editor-preview-title span { background: linear-gradient(90deg, var(--first-color), hsl(200,100%,60%)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.editor-preview-text { font-size: 0.83rem; line-height: 1.75; color: var(--text-color); white-space: pre-wrap; word-break: break-word; min-height: 48px; }
+.editor-preview-text.placeholder-text { opacity: 0.4; font-style: italic; }
+
+.editor-textarea-wrap { background: var(--container-color); border: 1.5px solid var(--border-color); border-radius: 1rem; overflow: hidden; box-shadow: var(--shadow-sm); transition: border-color 0.2s, box-shadow 0.2s; }
+.editor-textarea-wrap:focus-within { border-color: var(--first-color); box-shadow: 0 0 0 3px hsla(230,100%,50%,0.1); }
+.editor-textarea { width: 100%; min-height: 160px; padding: 1.1rem 1.25rem; border: none; outline: none; resize: none; font-family: var(--body-font); font-size: 0.88rem; line-height: 1.75; color: var(--title-color); background: transparent; }
+.editor-textarea::placeholder { color: var(--text-color); opacity: 0.5; }
+.editor-textarea-footer { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 1.25rem; border-top: 1px solid var(--border-color); background: var(--body-color); }
+.editor-char-count { font-size: 0.68rem; font-weight: 600; color: var(--text-color); }
+.editor-char-count.warn { color: hsl(35,100%,50%); }
+.editor-char-count.over { color: hsl(0,80%,55%); }
+.editor-save-btn { font-family: var(--body-font); font-size: 0.75rem; font-weight: 700; background: var(--first-color); color: #fff; border: none; padding: 0.45rem 1.1rem; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s, transform 0.15s; }
+.editor-save-btn:hover { background: hsl(230,100%,42%); transform: scale(1.03); }
+.editor-save-btn.saved { background: var(--second-color); }
+
+.editor-status-row { display: flex; align-items: center; gap: 0.6rem; margin-top: 1rem; }
+.editor-status-chip { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.22rem 0.65rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 0.35rem; }
+.saved-chip   { background: hsl(150,60%,92%); color: hsl(150,80%,30%); }
+.unsaved-chip { background: hsl(35,100%,92%); color: hsl(35,100%,35%); }
+.empty-chip   { background: var(--gray-color); color: var(--text-color); }
+
+.editor-toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(16px); background: var(--title-color); color: #fff; font-size: 0.78rem; font-weight: 600; padding: 0.6rem 1.25rem; border-radius: 10px; box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 0.5rem; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; z-index: 999; white-space: nowrap; }
+.editor-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.editor-toast.success-toast { background: var(--second-color); }
+
+/* ══════════════════════════════════════════ MESSAGES PAGE ══════════════════════════════════════════ */
+#messages-page { display: none; }
+#messages-page.active { display: block; }
+#messages-page::before { content: ""; position: fixed; inset: 0; background-image: radial-gradient(hsla(230,40%,60%,0.13) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; z-index: 0; }
+
+.topbar { position: sticky; top: 0; z-index: 200; background: hsla(230,40%,97%,0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.topbar-title { font-size: 1.1rem; font-weight: 700; color: var(--title-color); letter-spacing: -0.02em; white-space: nowrap; }
+.topbar-count { font-size: 0.72rem; font-weight: 600; background: var(--first-color); color: #fff; padding: 0.2rem 0.55rem; border-radius: 20px; }
+.search-wrap { flex: 1; max-width: 320px; position: relative; margin-left: auto; }
+.search-wrap i { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--text-color); pointer-events: none; }
+.search-input { width: 100%; padding: 0.5rem 1rem 0.5rem 2.4rem; border: 1px solid var(--border-color); border-radius: 10px; background: var(--container-color); font-family: var(--body-font); font-size: 0.82rem; color: var(--title-color); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+.search-input:focus { border-color: var(--first-color); box-shadow: 0 0 0 3px hsla(230,100%,50%,0.1); }
+.filter-tabs { display: flex; gap: 0.4rem; }
+.filter-tab { font-family: var(--body-font); font-size: 0.75rem; font-weight: 600; padding: 0.35rem 0.85rem; border-radius: 8px; border: 1px solid var(--border-color); background: transparent; color: var(--text-color); cursor: pointer; transition: all 0.15s; }
+.filter-tab.active, .filter-tab:hover { background: var(--first-color); border-color: var(--first-color); color: #fff; }
+.filter-tab[data-group="MSIL"].active, .filter-tab[data-group="MSIL"]:hover { background: var(--msil-color); border-color: var(--msil-color); }
+
+.page-wrapper { position: relative; z-index: 1; padding: 2rem 2rem 5rem; max-width: 960px; margin: 0 auto; }
+.empty-state { display: none; text-align: center; padding: 3rem 1rem; color: var(--text-color); font-size: 0.9rem; }
+.profiles-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 1.5rem 1.25rem; }
+
+.card__article { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; animation: fadeUp 0.4s ease both; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.avatar-wrap { position: relative; cursor: pointer; }
+.avatar-wrap::before { content: ""; position: absolute; inset: -4px; border-radius: 50%; z-index: 0; opacity: 0; transition: opacity 0.25s; }
+.card__article[data-group="LEXI"] .avatar-wrap::before { background: conic-gradient(var(--first-color), hsl(200,100%,60%), var(--first-color)); }
+.card__article[data-group="MSIL"] .avatar-wrap::before { background: conic-gradient(var(--msil-color), hsl(320,80%,65%), var(--msil-color)); }
+.card__article:hover .avatar-wrap::before { opacity: 1; animation: spin-ring 3s linear infinite; }
+@keyframes spin-ring { to { transform: rotate(360deg); } }
+
+.card__article.no-message .card__profile { opacity: 0.4; filter: grayscale(0.5); }
+.card__article.no-message .unread-badge { background: var(--gray-color); color: var(--text-color); font-size: 0.7rem; }
+
+.card__profile { width: 72px; height: 72px; background-color: var(--gray-color); border-radius: 50%; overflow: hidden; display: flex; justify-content: center; align-items: flex-end; border: 3px solid var(--container-color); box-shadow: var(--shadow-sm); transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s; position: relative; z-index: 1; }
+.card__profile img { width: 68px; }
+.card__article:hover .card__profile { transform: translateY(-4px) scale(1.06); box-shadow: var(--shadow-md); }
+
+.unread-badge { position: absolute; top: -2px; right: -2px; width: 18px; height: 18px; background: hsl(0,90%,58%); color: #fff; font-size: 0.6rem; font-weight: 700; border-radius: 50%; border: 2px solid var(--body-color); display: flex; align-items: center; justify-content: center; z-index: 10; }
+.online-dot { position: absolute; bottom: 2px; right: 2px; width: 10px; height: 10px; background: var(--second-color); border-radius: 50%; border: 2px solid var(--container-color); z-index: 10; }
+.online-dot::after { content: ""; position: absolute; inset: -3px; border-radius: 50%; background: var(--second-color); opacity: 0.35; animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100% { transform: scale(1); opacity: 0.35; } 50% { transform: scale(1.7); opacity: 0; } }
+
+.card__name-label { font-size: 0.72rem; font-weight: 600; color: var(--title-color); text-align: center; letter-spacing: -0.01em; line-height: 1.2; }
+.card__group-pill { font-size: 0.6rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 20px; letter-spacing: 0.04em; }
+.card__article[data-group="LEXI"] .card__group-pill { background: var(--first-color-light); color: var(--first-color); }
+.card__article[data-group="MSIL"] .card__group-pill { background: var(--msil-color-light); color: var(--msil-color); }
+.card__initials { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; color: var(--first-color); }
+
+.celebrate-btn-container { text-align: center; margin-top: 2.5rem; }
+.celebrate-btn { font-family: var(--body-font); font-size: 0.8rem; font-weight: 600; background: var(--first-color); padding: 0.7rem 1.4rem; border-radius: 0.75rem; color: #fff; display: inline-flex; align-items: center; column-gap: 0.5rem; border: none; cursor: pointer; transition: background-color 0.2s, transform 0.15s; text-decoration: none; }
+.celebrate-btn:hover { background: hsl(230,100%,42%); transform: scale(1.03); }
+
+/* floating tooltip */
+#floating-tooltip { position: fixed; z-index: 9999; pointer-events: none; opacity: 0; transform: translateY(8px); transition: opacity 0.2s, transform 0.25s cubic-bezier(0.34,1.4,0.64,1); width: 230px; }
+#floating-tooltip.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+#ft-content { background: var(--container-color); border: 1px solid var(--border-color); border-radius: 1rem; box-shadow: var(--shadow-lg); padding: 1.25rem 1rem; position: relative; }
+#ft-arrow { position: absolute; width: 14px; height: 14px; background: var(--container-color); transform: rotate(45deg); border-radius: 0 0 3px 0; }
+#ft-arrow.arrow-down { bottom: -8px; border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); top: auto; }
+#ft-arrow.arrow-up { top: -8px; border-left: 1px solid var(--border-color); border-top: 1px solid var(--border-color); bottom: auto; }
+.ft-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.ft-group-badge { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 20px; }
+.ft-group-badge.lexi { background: var(--first-color-light); color: var(--first-color); }
+.ft-group-badge.msil { background: var(--msil-color-light); color: var(--msil-color); }
+.ft-time { font-size: 0.68rem; color: var(--text-color); }
+.ft-avatar { width: 60px; height: 60px; background: var(--gray-color); border-radius: 50%; overflow: hidden; display: flex; justify-content: center; align-items: flex-end; margin: 0 auto 0.65rem; position: relative; }
+.ft-avatar img { width: 56px; }
+.ft-avatar-dot { width: 10px; height: 10px; background: var(--second-color); border-radius: 50%; border: 2px solid var(--container-color); position: absolute; bottom: 2px; right: 2px; }
+.ft-body { text-align: center; }
+.ft-name { font-size: 0.95rem; font-weight: 700; color: var(--title-color); margin-bottom: 0.15rem; letter-spacing: -0.01em; }
+.ft-sub { font-size: 0.72rem; color: var(--text-color); margin-bottom: 0.85rem; }
+.ft-btn { font-family: var(--body-font); font-size: 0.75rem; font-weight: 600; background: var(--first-color); padding: 0.55rem 1rem; border-radius: 0.6rem; color: #fff; display: inline-flex; align-items: center; column-gap: 0.35rem; cursor: pointer; border: none; transition: background-color 0.2s, transform 0.15s; }
+.ft-btn:hover { background: hsl(230,100%,42%); transform: scale(1.03); }
+.ft-btn.no-msg { background: var(--gray-color); color: var(--text-color); cursor: default; pointer-events: none; }
+.card__initials-sm { width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 700; color: var(--first-color); }
+
+/* ══════════════════════════════════════════ CARD OVERLAY ══════════════════════════════════════════ */
+#card-overlay { display: none; position: fixed; inset: 0; z-index: 500; background: var(--body-color); overflow-y: auto; }
+#card-overlay.visible { display: block; }
+#card-overlay::before { content: ""; position: fixed; inset: 0; background-image: radial-gradient(hsla(230,40%,60%,0.18) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; z-index: 0; }
+
+.confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+.confetti-wrap span { position: absolute; top: -12px; width: 8px; height: 8px; border-radius: 2px; opacity: 0; animation: confetti-fall linear forwards; }
+@keyframes confetti-fall { 0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(105vh) rotate(720deg) scale(0.6); } }
+
+.back-btn { position: fixed; top: 1.25rem; left: 1.5rem; z-index: 600; display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--body-font); font-size: 0.78rem; font-weight: 600; color: var(--text-color); background: var(--container-color); border: 1px solid var(--border-color); padding: 0.45rem 0.9rem; border-radius: 10px; box-shadow: var(--shadow-sm); cursor: pointer; transition: color 0.2s, box-shadow 0.2s, transform 0.15s; }
+.back-btn:hover { color: var(--first-color); box-shadow: var(--shadow-md); transform: translateX(-2px); }
+
+.overlay-scene { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 5rem 1rem 3rem; }
+
+.from-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; color: var(--text-color); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; opacity: 0; transform: translateY(-6px); animation: fadeDown 0.5s 0.2s ease forwards; }
+.from-label::before, .from-label::after { content: ""; width: 32px; height: 1px; background: var(--border-color); }
+@keyframes fadeDown { to { opacity: 1; transform: translateY(0); } }
+
+.greeting-card { width: 360px; background: var(--container-color); border-radius: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-lg); overflow: hidden; cursor: pointer; position: relative; opacity: 0; transform: translateY(24px) scale(0.97); animation: cardInUp 0.55s 0.35s cubic-bezier(0.34,1.4,0.64,1) forwards; }
+@keyframes cardInUp { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+.card__accent { height: 4px; background: linear-gradient(90deg, var(--first-color), hsl(200,100%,60%)); border-radius: 4px 4px 0 0; }
+.card__img-area { height: 200px; background: var(--body-color); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border-bottom: 1px solid var(--border-color); }
+.card__img-area::before { content: ""; position: absolute; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, hsla(230,100%,70%,0.15) 0%, transparent 70%); animation: glow-pulse 3s ease-in-out infinite; }
+@keyframes glow-pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.15); opacity: 0.6; } }
+.card__memoji { width: 160px; position: relative; z-index: 1; filter: drop-shadow(0 8px 20px hsla(230,40%,20%,0.18)); transform: translateY(8px); transition: transform 0.5s cubic-bezier(0.34,1.4,0.64,1); border-radius: 50%; }
+.greeting-card:hover .card__memoji { transform: translateY(-6px) rotate(-6deg) scale(1.06); }
+.card__memoji-initials { width: 120px; height: 120px; border-radius: 50%; background: var(--first-color-light); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700; color: var(--first-color); position: relative; z-index: 1; }
+
+.card__body { padding: 1.5rem 1.5rem 1.75rem; }
+.card__sender { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; background: var(--first-color-light); color: var(--first-color); padding: 0.2rem 0.65rem; border-radius: 20px; margin-bottom: 0.9rem; }
+.card__sender-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--second-color); }
+.card__title { font-size: 1.3rem; font-weight: 700; color: var(--title-color); letter-spacing: -0.02em; line-height: 1.25; margin-bottom: 0.75rem; }
+.card__title span { background: linear-gradient(90deg, var(--first-color), hsl(200,100%,60%)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.card__description { font-size: 0.83rem; line-height: 1.75; color: var(--text-color); max-height: 0; overflow: hidden; transition: max-height 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.4s 0.1s ease, transform 0.4s 0.1s ease; opacity: 0; transform: translateY(8px); white-space: pre-wrap; }
+.greeting-card.open .card__description { max-height: 400px; opacity: 1; transform: translateY(0); }
+.card__divider { height: 1px; background: var(--border-color); margin: 1rem 0; transform: scaleX(0); transform-origin: left; transition: transform 0.4s 0.15s ease; }
+.greeting-card.open .card__divider { transform: scaleX(1); }
+.card__hint { display: flex; align-items: center; gap: 0.4rem; font-size: 0.7rem; font-weight: 500; color: var(--text-color); opacity: 0.7; transition: opacity 0.3s; }
+.greeting-card.open .card__hint { opacity: 0; height: 0; overflow: hidden; }
+.card__hint i { font-size: 0.85rem; animation: tap-nudge 1.6s ease-in-out infinite; }
+@keyframes tap-nudge { 0%,100% { transform: scale(1); } 50% { transform: scale(1.25); } }
+.card__footer { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 1.5rem; border-top: 1px solid var(--border-color); background: var(--body-color); }
+.card__timestamp { font-size: 0.68rem; color: var(--text-color); display: flex; align-items: center; gap: 0.35rem; }
+.card__react { display: flex; gap: 0.5rem; }
+.react-btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--container-color); display: flex; align-items: center; justify-content: center; font-size: 0.95rem; cursor: pointer; transition: transform 0.2s cubic-bezier(0.34,1.6,0.64,1), box-shadow 0.2s, background 0.2s; }
+.react-btn:hover { transform: scale(1.25); box-shadow: var(--shadow-md); background: var(--first-color-light); }
+.react-btn.active { background: var(--first-color-light); border-color: hsla(230,100%,50%,0.3); animation: pop 0.35s cubic-bezier(0.34,1.6,0.64,1); }
+@keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1.25); } }
+.tagline { margin-top: 1.5rem; font-size: 0.72rem; font-weight: 500; color: var(--text-color); opacity: 0; animation: fadeDown 0.5s 0.8s ease forwards; display: flex; align-items: center; gap: 0.4rem; }
+.tagline i { font-size: 0.85rem; color: var(--first-color); animation: heartbeat 1.5s ease-in-out infinite; }
+@keyframes heartbeat { 0%,100% { transform: scale(1); } 25% { transform: scale(1.25); } 50% { transform: scale(1); } 75% { transform: scale(1.15); } }
+
+@media screen and (max-width: 700px) {
+  .profiles-grid { grid-template-columns: repeat(4,1fr); gap: 1.5rem 1rem; }
+  .filter-tabs { display: none; }
+}
+@media screen and (max-width: 480px) {
+  .profiles-grid { grid-template-columns: repeat(3,1fr); gap: 1.5rem 0.75rem; }
+  .greeting-card { width: calc(100vw - 2rem); }
+  .editor-wrapper { padding: 1.5rem 1rem 4rem; }
+}
+```
+
   </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════
-     LOGIN PAGE
-═══════════════════════════════════════════════════ -->
+<!-- ═══════════ LOGIN ═══════════ -->
+
 <div id="login-page">
   <div class="login-orb login-orb-1"></div>
   <div class="login-orb login-orb-2"></div>
-
   <div class="login-card">
     <div class="login-accent"></div>
     <div class="login-body">
-
-      <!-- logo row -->
       <div class="login-logo">
         <div class="login-logo-icon"><i class="ri-message-3-fill"></i></div>
         <div class="login-logo-text">
-          <span class="login-logo-title">CTO - CDP</span>
+          <span class="login-logo-title">Team Portal</span>
           <span class="login-logo-sub">FAREWELL EDITION</span>
         </div>
         <div class="login-groups">
@@ -1165,93 +309,91 @@
           <span class="login-group-pill msil">MSIL</span>
         </div>
       </div>
-
-      <h1 class="login-heading">Welcome back,<br><span></span></h1>
-      <p class="login-sub">Enter the name of the person this is all about to unlock the messages.</p>
-
-      <!-- name field -->
+      <h1 class="login-heading">Welcome back,<br><span>who are you?</span></h1>
+      <p class="login-sub">Enter your name and the team secret code to access your message space.</p>
       <div class="login-field">
-        <label class="login-label" for="login-name-input">
-          <i class="ri-user-line" style="margin-right:0.25rem"></i>Your name
-        </label>
+        <label class="login-label" for="login-name-input"><i class="ri-user-line" style="margin-right:.25rem"></i>Your name</label>
         <div class="login-input-wrap">
-          <input
-            class="login-input"
-            id="login-name-input"
-            type="text"
-            placeholder="Who is this surprise for?"
-            autocomplete="off"
-            spellcheck="false"
-          >
+          <input class="login-input" id="login-name-input" type="text" placeholder="Type your name exactly…" autocomplete="off" spellcheck="false">
           <i class="input-icon ri-user-smile-line"></i>
         </div>
       </div>
-
-      <!-- secret code field -->
       <div class="login-field">
-        <label class="login-label" for="login-pw-input">
-          <i class="ri-lock-line" style="margin-right:0.25rem"></i>Secret code
-        </label>
+        <label class="login-label" for="login-pw-input"><i class="ri-lock-line" style="margin-right:.25rem"></i>Secret code</label>
         <div class="login-input-wrap">
-          <input
-            class="login-input"
-            id="login-pw-input"
-            type="password"
-            placeholder="Think… it's someone's name 🤔"
-            autocomplete="off"
-          >
+          <input class="login-input" id="login-pw-input" type="password" placeholder="Enter the secret code…" autocomplete="off">
           <i class="input-icon ri-lock-line"></i>
-          <button class="pw-toggle" id="pw-toggle" type="button" tabindex="-1">
-            <i class="ri-eye-off-line" id="pw-toggle-icon"></i>
-          </button>
+          <button class="pw-toggle" id="pw-toggle" type="button" tabindex="-1"><i class="ri-eye-off-line" id="pw-toggle-icon"></i></button>
         </div>
         <div class="login-feedback" id="login-feedback">
-          <i class="ri-information-line" id="feedback-icon"></i>
-          <span id="feedback-text"></span>
+          <i id="feedback-icon"></i><span id="feedback-text"></span>
         </div>
       </div>
-
       <button class="login-btn" id="login-btn" onclick="attemptLogin()">
-        <i class="ri-arrow-right-circle-line"></i>
-        Open Messages
+        <i class="ri-arrow-right-circle-line"></i> Continue
       </button>
-
-      <p class="login-footer-note">
-        <i class="ri-heart-fill"></i>
-        Something special is waiting inside
-      </p>
-
+      <p class="login-footer-note"><i class="ri-heart-fill"></i> Something special is waiting inside</p>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════
-     FLOATING TOOLTIP (shared, JS-positioned)
-═══════════════════════════════════════════════════ -->
-<div id="floating-tooltip">
-  <div id="ft-content">
-    <div id="ft-arrow" class="arrow-down"></div>
-    <div class="ft-header">
-      <span class="ft-group-badge lexi" id="ft-group">LEXI</span>
-      <span class="ft-time">Just now</span>
-    </div>
-    <div class="ft-body">
-      <div class="ft-avatar" id="ft-avatar">
-        <span class="ft-avatar-dot"></span>
+<!-- ═══════════ EDITOR ═══════════ -->
+
+<div id="editor-page">
+  <div class="editor-topbar">
+    <div class="editor-topbar-left">
+      <div class="editor-avatar" id="editor-avatar">?</div>
+      <div>
+        <div class="editor-topbar-name" id="editor-topbar-name">—</div>
+        <div class="editor-topbar-sub" id="editor-topbar-sub">Write your farewell message</div>
       </div>
-      <h2 class="ft-name" id="ft-name"></h2>
-      <p class="ft-sub">1 Unread Message</p>
-      <button class="ft-btn" id="ft-btn" onclick="openCard(currentProfileIndex)">
-        <i class="ri-message-3-line"></i> View message
-      </button>
+    </div>
+    <button class="editor-logout" onclick="logout()"><i class="ri-logout-box-r-line"></i> Log out</button>
+  </div>
+  <div class="editor-wrapper">
+    <div class="editor-section-label">PREVIEW — how Karthik will see your message</div>
+    <div class="editor-preview-card">
+      <div class="editor-preview-accent"></div>
+      <div class="editor-preview-body">
+        <div class="editor-preview-chip"><span class="editor-preview-chip-dot"></span><span id="preview-sender-text">From — · —</span></div>
+        <div class="editor-preview-title">Farewell, <span>Karthik!</span></div>
+        <div class="editor-preview-text placeholder-text" id="preview-text">Your message will appear here as you type…</div>
+      </div>
+    </div>
+    <div class="editor-section-label">WRITE YOUR MESSAGE</div>
+    <div class="editor-textarea-wrap">
+      <textarea class="editor-textarea" id="editor-textarea" placeholder="Share your farewell wishes, memories, or anything you want Karthik to remember…" maxlength="1000"></textarea>
+      <div class="editor-textarea-footer">
+        <span class="editor-char-count" id="char-count">0 / 1000</span>
+        <button class="editor-save-btn" id="save-btn" onclick="saveMessage()"><i class="ri-save-line"></i> Save message</button>
+      </div>
+    </div>
+    <div class="editor-status-row">
+      <span class="editor-status-chip empty-chip" id="status-chip"><i class="ri-edit-line"></i> Not written yet</span>
     </div>
   </div>
 </div>
+<div class="editor-toast" id="editor-toast"><i class="ri-check-line"></i><span id="toast-text">Saved!</span></div>
 
-<!-- ═══════════════════════════════════════════════════
-     MESSAGES PAGE
-═══════════════════════════════════════════════════ -->
+<!-- ═══════════ MESSAGES PAGE ═══════════ -->
+
 <div id="messages-page">
+  <div id="floating-tooltip">
+    <div id="ft-content">
+      <div id="ft-arrow" class="arrow-down"></div>
+      <div class="ft-header">
+        <span class="ft-group-badge lexi" id="ft-group">LEXI</span>
+        <span class="ft-time">Just now</span>
+      </div>
+      <div class="ft-body">
+        <div class="ft-avatar" id="ft-avatar"><span class="ft-avatar-dot"></span></div>
+        <h2 class="ft-name" id="ft-name"></h2>
+        <p class="ft-sub" id="ft-sub">1 Unread Message</p>
+        <button class="ft-btn" id="ft-btn" onclick="openCard(currentProfileIndex)"><i class="ri-message-3-line"></i> View message</button>
+      </div>
+    </div>
+  </div>
+
   <div class="topbar">
     <span class="topbar-title">Messages</span>
     <span class="topbar-count" id="count-badge">25</span>
@@ -1265,604 +407,383 @@
       <button class="filter-tab" data-group="MSIL">MSIL</button>
     </div>
   </div>
-
   <div class="page-wrapper">
     <div class="profiles-grid" id="profiles-container"></div>
     <div class="empty-state" id="empty-state">No people found.</div>
     <div class="celebrate-btn-container">
       <a href="https://abdulhakeem-fmah.github.io/Farewell/" class="celebrate-btn" target="_blank">
-        <i class="ri-bard-fill"></i>
-        <span>Celebrate!</span>
+        <i class="ri-bard-fill"></i><span>Celebrate!</span>
       </a>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════
-     CARD OVERLAY
-═══════════════════════════════════════════════════ -->
+<!-- ═══════════ CARD OVERLAY ═══════════ -->
+
 <div id="card-overlay">
   <div class="confetti-wrap" id="confetti-wrap"></div>
-
-  <button class="back-btn" onclick="closeCard()">
-    <i class="ri-arrow-left-line"></i> Back
-  </button>
-
+  <button class="back-btn" onclick="closeCard()"><i class="ri-arrow-left-line"></i> Back</button>
   <div class="overlay-scene">
-    <p class="from-label" id="overlay-from-label">A farewell message for you</p>
-
+    <p class="from-label">A farewell message for you</p>
     <div class="greeting-card" id="greeting-card">
       <div class="card__accent"></div>
-
-      <div class="card__img-area" id="card-img-area">
-        <!-- image or initials injected by JS -->
-      </div>
-
+      <div class="card__img-area" id="card-img-area"></div>
       <div class="card__body">
-        <div class="card__sender" id="card-sender">
-          <span class="card__sender-dot"></span>
-          <span id="card-sender-text">From … · LEXI</span>
-        </div>
-
-        <h1 class="card__title">Farewell, <span>Karthick!</span></h1>
-
-        <div class="card__hint">
-          <i class="ri-hand-coin-line"></i>
-          <span>Tap the card to read the message</span>
-        </div>
-
+        <div class="card__sender"><span class="card__sender-dot"></span><span id="card-sender-text">From … · LEXI</span></div>
+        <h1 class="card__title">Farewell, <span>Karthik!</span></h1>
+        <div class="card__hint"><i class="ri-hand-coin-line"></i><span>Tap the card to read the message</span></div>
         <div class="card__divider"></div>
-
-        <p class="card__description" id="card-message">
-          <!-- message injected by JS -->
-        </p>
+        <p class="card__description" id="card-message"></p>
       </div>
-
       <div class="card__footer">
-        <span class="card__timestamp">
-          <i class="ri-time-line"></i> Just now
-        </span>
+        <span class="card__timestamp"><i class="ri-time-line"></i> Just now</span>
         <div class="card__react">
-          <button class="react-btn" title="Wave goodbye"   onclick="toggleReact(this,event)">👋</button>
-          <button class="react-btn" title="Celebration"    onclick="toggleReact(this,event)">🎉</button>
-          <button class="react-btn" title="Heart"          onclick="toggleReact(this,event)">❤️</button>
+          <button class="react-btn" onclick="toggleReact(this,event)">👋</button>
+          <button class="react-btn" onclick="toggleReact(this,event)">🎉</button>
+          <button class="react-btn" onclick="toggleReact(this,event)">❤️</button>
         </div>
       </div>
     </div>
-
-    <p class="tagline">
-      <i class="ri-heart-fill"></i>
-      With love from the team
-    </p>
+    <p class="tagline"><i class="ri-heart-fill"></i> With love from the team</p>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════
-     JAVASCRIPT
-═══════════════════════════════════════════════════ -->
 <script>
-  /* ─────────────────────────────────────────────────
-     LOGIN
-  ───────────────────────────────────────────────── */
-  const SECRET = "karthick";   // ← the magic word
-  let wrongAttempts = 0;
+  /* ─── CONFIG — edit passwords here ─── */
+  const KARTHIK_NAME     = "karthik";    // Karthik logs in with this name (case-insensitive)
+  const KARTHIK_PASSWORD = "karthik";    // Karthik's own secret code
+  const TEAM_PASSWORD    = "lexi@2025";  // shared code for all 25 team members
+  const LS_PREFIX        = "farewell_v1_";
 
+  /* ─── PROFILES ─── */
+  const profiles = [
+    { name: "Rajesh",       group: "LEXI", img: "assets/img/Memoji4.png" },
+    { name: "Tharani",      group: "LEXI", img: "assets/img/Memoji2.png" },
+    { name: "Sariga",       group: "LEXI", img: "assets/img/Memoji1.png" },
+    { name: "Bhuvi",        group: "LEXI", img: "assets/img/Memoji2.png" },
+    { name: "Vetri",        group: "LEXI", img: "assets/img/Memoji3.png" },
+    { name: "Hari",         group: "LEXI", img: "assets/img/Memoji4.png" },
+    { name: "Rohit",        group: "LEXI", img: "assets/img/Memoji3.png" },
+    { name: "Praveen",      group: "LEXI", img: "assets/img/Memoji4.png" },
+    { name: "Hakeem",       group: "LEXI", img: "assets/img/Memoji3.png" },
+    { name: "Kavya",        group: "LEXI", img: "assets/img/Memoji1.png" },
+    { name: "Pooja",        group: "LEXI", img: "assets/img/Memoji2.png" },
+    { name: "Cilvia",       group: "LEXI", img: "assets/img/Memoji1.png" },
+    { name: "Keertika",     group: "LEXI", img: "assets/img/Memoji2.png" },
+    { name: "Sneha",        group: "LEXI", img: "assets/img/Memoji1.png" },
+    { name: "Soundarya",    group: "LEXI", img: "assets/img/Memoji2.png" },
+    { name: "Sornamugi",    group: "LEXI", img: "assets/img/Memoji1.png" },
+    { name: "Anumita",      group: "LEXI", img: "assets/img/Memoji2.png" },
+    { name: "Prasad",       group: "MSIL", img: "assets/img/Memoji4.png" },
+    { name: "Ashwin",       group: "MSIL", img: "assets/img/Memoji3.png" },
+    { name: "Vaishnavi",    group: "MSIL", img: "assets/img/Memoji1.png" },
+    { name: "Jesu",         group: "LEXI", img: "assets/img/Memoji4.png" },
+    { name: "Muthu",        group: "MSIL", img: "assets/img/Memoji3.png" },
+    { name: "Deepika",      group: "LEXI", img: "assets/img/Memoji2.png" },
+    { name: "Sohel",        group: "LEXI", img: "assets/img/Memoji4.png" },
+    { name: "Subhadhitya",  group: "LEXI", img: "assets/img/Memoji3.png" },
+  ];
+
+  /* ─── UTILS ─── */
+  function initials(name) { return name.split(" ").map(w => w[0]).slice(0,2).join("").toUpperCase(); }
+  function lsKey(name)    { return LS_PREFIX + name.toLowerCase().replace(/\s+/g,"_"); }
+  function getMsg(name)   { return localStorage.getItem(lsKey(name)) || ""; }
+  function setMsg(name, t){ localStorage.setItem(lsKey(name), t); }
+
+  /* ─── LOGIN ─── */
+  let wrongAttempts = 0;
   const errorMessages = [
-    { icon: "ri-question-line",      msg: "Hmm, that doesn't ring a bell… 🤔",          cls: "error" },
-    { icon: "ri-emotion-sad-line",   msg: "Nope! Think harder — it's a name you know.",  cls: "error" },
-    { icon: "ri-lightbulb-line",     msg: "Hint: whose farewell is this page for? 😏",    cls: "hint"  },
-    { icon: "ri-emotion-laugh-line", msg: "It's literally the name in the title! 😂",     cls: "hint"  },
+    { icon: "ri-question-line",      msg: "Hmm, that doesn't match. Try again 🤔",          cls: "error" },
+    { icon: "ri-emotion-sad-line",   msg: "Nope! Name must match exactly as in the list.",   cls: "error" },
+    { icon: "ri-lightbulb-line",     msg: "Hint: check your spelling and capitalisation.",   cls: "hint"  },
+    { icon: "ri-emotion-laugh-line", msg: "Ask the organiser for the team secret code 😄",   cls: "hint"  },
   ];
 
   function showFeedback(icon, msg, cls) {
-    const fb   = document.getElementById("login-feedback");
-    const ico  = document.getElementById("feedback-icon");
-    const text = document.getElementById("feedback-text");
-    fb.className   = "login-feedback show " + cls;
-    ico.className  = icon;
-    text.textContent = msg;
+    const fb = document.getElementById("login-feedback");
+    document.getElementById("feedback-icon").className = icon;
+    document.getElementById("feedback-text").textContent = msg;
+    fb.className = "login-feedback show " + cls;
   }
 
   function attemptLogin() {
-    const nameVal = document.getElementById("login-name-input").value.trim();
-    const pwVal   = document.getElementById("login-pw-input").value.trim().toLowerCase();
+    const nameRaw = document.getElementById("login-name-input").value.trim();
+    const pw      = document.getElementById("login-pw-input").value.trim();
     const pwInput = document.getElementById("login-pw-input");
     const btn     = document.getElementById("login-btn");
+    const nl = nameRaw.toLowerCase(), pl = pw.toLowerCase();
 
-    if (pwVal === SECRET) {
-      // ── SUCCESS ──
-      showFeedback("ri-check-line", "That's the one! 🎉 Opening messages…", "hint");
-      btn.innerHTML  = `<i class="ri-check-line"></i> Welcome, ${nameVal || "Karthick"}!`;
-      btn.classList.add("success");
-      btn.disabled   = true;
+    // Karthik
+    if (nl === KARTHIK_NAME && pl === KARTHIK_PASSWORD) {
+      showFeedback("ri-check-line", "Welcome, Karthik! 🎉 Loading your messages…", "hint");
+      btn.innerHTML = `<i class="ri-check-line"></i> Welcome, Karthik!`; btn.classList.add("success"); btn.disabled = true;
+      setTimeout(() => showPage("messages"), 900);
+      return;
+    }
 
-      setTimeout(() => {
-        const loginPage = document.getElementById("login-page");
-        const msgPage   = document.getElementById("messages-page");
-        loginPage.classList.add("exit");
-        msgPage.style.display = "block";
-        // small extra delay so messages page animates in after login exits
-        setTimeout(() => { loginPage.style.display = "none"; }, 520);
-      }, 800);
+    // Team member
+    const profile = profiles.find(p => p.name.toLowerCase() === nl);
+    if (profile && pl === TEAM_PASSWORD.toLowerCase()) {
+      showFeedback("ri-check-line", `Welcome, ${profile.name}! Opening your message space…`, "hint");
+      btn.innerHTML = `<i class="ri-check-line"></i> Welcome, ${profile.name}!`; btn.classList.add("success"); btn.disabled = true;
+      setTimeout(() => { showPage("editor"); openEditorFor(profile); }, 900);
+      return;
+    }
 
+    // Wrong
+    const err = errorMessages[Math.min(wrongAttempts, errorMessages.length - 1)];
+    showFeedback(err.icon, err.msg, err.cls); wrongAttempts++;
+    pwInput.classList.remove("shake"); void pwInput.offsetWidth; pwInput.classList.add("shake");
+    pwInput.value = "";
+    setTimeout(() => pwInput.classList.remove("shake"), 400);
+    btn.classList.remove("success"); btn.disabled = false;
+    btn.innerHTML = `<i class="ri-arrow-right-circle-line"></i> Continue`;
+  }
+
+  function showPage(name) {
+    const lp = document.getElementById("login-page");
+    lp.classList.add("exit");
+    setTimeout(() => {
+      lp.style.display = "none";
+      if (name === "messages") { document.getElementById("messages-page").style.display = "block"; renderProfiles(); }
+      if (name === "editor")   { document.getElementById("editor-page").style.display = "block"; }
+    }, 520);
+  }
+
+  function logout() { location.reload(); }
+
+  /* ─── EDITOR ─── */
+  let currentEditorProfile = null;
+
+  function openEditorFor(p) {
+    currentEditorProfile = p;
+    document.getElementById("editor-avatar").textContent = initials(p.name);
+    document.getElementById("editor-topbar-name").textContent = p.name;
+    document.getElementById("editor-topbar-sub").textContent = p.group + " · Farewell message for Karthik";
+    document.getElementById("preview-sender-text").textContent = `From ${p.name} · ${p.group}`;
+    const saved = getMsg(p.name);
+    const ta = document.getElementById("editor-textarea");
+    ta.value = saved;
+    updatePreview(saved); updateCharCount(saved.length); updateStatusChip(saved);
+  }
+
+  function updatePreview(text) {
+    const el = document.getElementById("preview-text");
+    if (text.trim()) { el.textContent = text; el.classList.remove("placeholder-text"); }
+    else { el.textContent = "Your message will appear here as you type…"; el.classList.add("placeholder-text"); }
+  }
+
+  function updateCharCount(len) {
+    const el = document.getElementById("char-count");
+    el.textContent = `${len} / 1000`;
+    el.className = "editor-char-count" + (len > 950 ? " over" : len > 800 ? " warn" : "");
+  }
+
+  function updateStatusChip(savedText) {
+    const chip = document.getElementById("status-chip");
+    const val  = document.getElementById("editor-textarea").value.trim();
+    if (savedText !== null) {
+      chip.className = savedText.trim() ? "editor-status-chip saved-chip" : "editor-status-chip empty-chip";
+      chip.innerHTML = savedText.trim() ? `<i class="ri-check-line"></i> Message saved` : `<i class="ri-edit-line"></i> Not written yet`;
     } else {
-      // ── WRONG ──
-      wrongAttempts = Math.min(wrongAttempts, errorMessages.length - 1);
-      const err = errorMessages[wrongAttempts];
-      showFeedback(err.icon, err.msg, err.cls);
-      wrongAttempts++;
-
-      pwInput.classList.remove("shake");
-      // force reflow to restart animation
-      void pwInput.offsetWidth;
-      pwInput.classList.add("shake");
-      pwInput.value = "";
-      setTimeout(() => pwInput.classList.remove("shake"), 400);
+      chip.className = val ? "editor-status-chip unsaved-chip" : "editor-status-chip empty-chip";
+      chip.innerHTML = val ? `<i class="ri-timer-line"></i> Unsaved changes` : `<i class="ri-edit-line"></i> Not written yet`;
     }
   }
 
-  // Enter key support
-  document.addEventListener("DOMContentLoaded", () => {
-    ["login-name-input", "login-pw-input"].forEach(id => {
-      document.getElementById(id).addEventListener("keydown", e => {
-        if (e.key === "Enter") attemptLogin();
+  function saveMessage() {
+    if (!currentEditorProfile) return;
+    const text = document.getElementById("editor-textarea").value.trim();
+    setMsg(currentEditorProfile.name, text);
+    updateStatusChip(text);
+    showToast(text ? "Message saved! Karthik will love it 🎉" : "Message cleared.", !!text);
+    const btn = document.getElementById("save-btn");
+    btn.classList.add("saved"); btn.innerHTML = `<i class="ri-check-line"></i> Saved!`;
+    setTimeout(() => { btn.classList.remove("saved"); btn.innerHTML = `<i class="ri-save-line"></i> Save message`; }, 2200);
+  }
+
+  function showToast(msg, success) {
+    const t = document.getElementById("editor-toast");
+    document.getElementById("toast-text").textContent = msg;
+    t.className = "editor-toast show" + (success ? " success-toast" : "");
+    setTimeout(() => { t.className = "editor-toast"; }, 3000);
+  }
+
+  /* ─── MESSAGES PAGE ─── */
+  let currentProfileIndex = -1;
+  let hideTimer = null;
+  const TIP_W = 230, GAP = 10;
+
+  function renderProfiles() {
+    const container  = document.getElementById("profiles-container");
+    const countBadge = document.getElementById("count-badge");
+    const emptyState = document.getElementById("empty-state");
+    let activeGroup  = "ALL";
+
+    function buildCard(p, visIdx, globalIdx) {
+      const hasMsg = !!getMsg(p.name);
+      const avHTML = p.img
+        ? `<img src="${p.img}" alt="${p.name}" onerror="this.parentNode.innerHTML='<div class=\\'card__initials\\'>${initials(p.name)}</div>'">`
+        : `<div class="card__initials">${initials(p.name)}</div>`;
+      const art = document.createElement("article");
+      art.className = "card__article" + (hasMsg ? "" : " no-message");
+      art.dataset.group = p.group;
+      art.style.animationDelay = `${visIdx * 0.035}s`;
+      art.innerHTML = `
+        <div class="avatar-wrap">
+          <div class="card__profile">${avHTML}</div>
+          <span class="unread-badge">${hasMsg ? "1" : "·"}</span>
+          <span class="online-dot"></span>
+        </div>
+        <span class="card__name-label">${p.name}</span>
+        <span class="card__group-pill">${p.group}</span>`;
+      const wrap = art.querySelector(".avatar-wrap");
+      wrap.addEventListener("mouseenter", () => showTooltip(wrap, p, globalIdx, hasMsg));
+      wrap.addEventListener("mouseleave", hideTooltip);
+      if (hasMsg) wrap.addEventListener("click", () => openCard(globalIdx));
+      return art;
+    }
+
+    function render() {
+      const q = document.getElementById("search-input").value.trim().toLowerCase();
+      container.innerHTML = "";
+      document.getElementById("floating-tooltip").classList.remove("visible");
+      const filtered = profiles.map((p,i) => ({p,i})).filter(({p}) =>
+        (activeGroup === "ALL" || p.group === activeGroup) && p.name.toLowerCase().includes(q));
+      countBadge.textContent   = filtered.length;
+      emptyState.style.display = filtered.length === 0 ? "block" : "none";
+      filtered.forEach(({p,i},vi) => container.appendChild(buildCard(p,vi,i)));
+    }
+
+    document.querySelectorAll(".filter-tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
+        tab.classList.add("active"); activeGroup = tab.dataset.group; render();
       });
     });
-
-    // password toggle
-    document.getElementById("pw-toggle").addEventListener("click", () => {
-      const inp  = document.getElementById("login-pw-input");
-      const icon = document.getElementById("pw-toggle-icon");
-      if (inp.type === "password") {
-        inp.type      = "text";
-        icon.className = "ri-eye-line";
-      } else {
-        inp.type      = "password";
-        icon.className = "ri-eye-off-line";
-      }
-    });
-  });
-
-  /* ─────────────────────────────────────────────────
-     PROFILES DATA
-     Replace each `message` value with the real text
-     from the respective team member.
-  ───────────────────────────────────────────────── */
-  const profiles = [
-    {
-      name: "Rajesh",
-      group: "LEXI",
-      img: "assets/img/Memoji4.png",
-      message: `[Rajesh's farewell message for Karthick goes here. Paste the full text between these backticks and it will appear inside the card.]`
-    },
-    {
-      name: "Tharani",
-      group: "LEXI",
-      img: "assets/img/Memoji2.png",
-      message: `[Tharani's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Sariga",
-      group: "LEXI",
-      img: "assets/img/Memoji1.png",
-      message: `[Sariga's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Bhuvi",
-      group: "LEXI",
-      img: "assets/img/Memoji2.png",
-      message: `[Bhuvi's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Vetri",
-      group: "LEXI",
-      img: "assets/img/Memoji3.png",
-      message: `[Vetri's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Hari",
-      group: "LEXI",
-      img: "assets/img/Memoji4.png",
-      message: `[Hari's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Rohit",
-      group: "LEXI",
-      img: "assets/img/Memoji3.png",
-      message: `[Rohit's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Praveen",
-      group: "LEXI",
-      img: "assets/img/Memoji4.png",
-      message: `[Praveen's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Hakeem",
-      group: "LEXI",
-      img: "assets/img/Memoji3.png",
-      message: `[Hakeem's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Kavya",
-      group: "LEXI",
-      img: "assets/img/Memoji1.png",
-      message: `[Kavya's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Pooja",
-      group: "LEXI",
-      img: "assets/img/Memoji2.png",
-      message: `[Pooja's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Cilvia",
-      group: "LEXI",
-      img: "assets/img/Memoji1.png",
-      message: `[Cilvia's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Keertika",
-      group: "LEXI",
-      img: "assets/img/Memoji2.png",
-      message: `[Keertika's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Sneha",
-      group: "LEXI",
-      img: "assets/img/Memoji1.png",
-      message: `[Sneha's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Soundarya",
-      group: "LEXI",
-      img: "assets/img/Memoji2.png",
-      message: `[Soundarya's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Sornamugi",
-      group: "LEXI",
-      img: "assets/img/Memoji1.png",
-      message: `[Sornamugi's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Anumita",
-      group: "LEXI",
-      img: "assets/img/Memoji2.png",
-      message: `[Anumita's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Prasad",
-      group: "MSIL",
-      img: "assets/img/Memoji4.png",
-      message: `[Prasad's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Ashwin",
-      group: "MSIL",
-      img: "assets/img/Memoji3.png",
-      message: `[Ashwin's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Vaishnavi",
-      group: "MSIL",
-      img: "assets/img/Memoji1.png",
-      message: `[Vaishnavi's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Jesu",
-      group: "LEXI",
-      img: "assets/img/Memoji4.png",
-      message: `[Jesu's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Muthu",
-      group: "MSIL",
-      img: "assets/img/Memoji3.png",
-      message: `[Muthu's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Deepika",
-      group: "LEXI",
-      img: "assets/img/Memoji2.png",
-      message: `[Deepika's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Sohel",
-      group: "LEXI",
-      img: "assets/img/Memoji4.png",
-      message: `[Sohel's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Subhadhitya",
-      group: "LEXI",
-      img: "assets/img/Memoji3.png",
-      message: `[Subhadhitya's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Dolly",
-      group: "LEXI",
-      img: "assets/img/Memoji1.png",
-      message: `[Dolly's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Amal",
-      group: "LEXI",
-      img: "assets/img/Memoji3.png",
-      message: `[Amal's farewell message for Karthick goes here.]`
-    },
-    {
-      name: "Ananya",
-      group: "LEXI",
-      img: "assets/img/Memoji2.png",
-      message: `[Ananya's farewell message for Karthick goes here.]`
-    }
-  ];
-
-  /* ─────────────────────────────────────────────────
-     HELPERS
-  ───────────────────────────────────────────────── */
-  function initials(name) {
-    return name.split(" ").map(w => w[0]).slice(0,2).join("").toUpperCase();
+    document.getElementById("search-input").addEventListener("input", render);
+    render();
   }
 
-  /* ─────────────────────────────────────────────────
-     MESSAGES PAGE — render
-  ───────────────────────────────────────────────── */
-  const container    = document.getElementById("profiles-container");
-  const searchInput  = document.getElementById("search-input");
-  const filterTabs   = document.querySelectorAll(".filter-tab");
-  const countBadge   = document.getElementById("count-badge");
-  const emptyState   = document.getElementById("empty-state");
-
-  const floatTip     = document.getElementById("floating-tooltip");
-  const ftGroup      = document.getElementById("ft-group");
-  const ftAvatar     = document.getElementById("ft-avatar");
-  const ftName       = document.getElementById("ft-name");
-  const ftArrow      = document.getElementById("ft-arrow");
-
-  const TIP_W = 230, GAP = 10;
-  let hideTimer = null;
-  let currentProfileIndex = -1;
-
-  function showTooltip(avatarEl, p, idx) {
+  /* ─── TOOLTIP ─── */
+  function showTooltip(avatarEl, p, idx, hasMsg) {
     clearTimeout(hideTimer);
     currentProfileIndex = idx;
+    const tip = document.getElementById("floating-tooltip");
 
-    ftName.textContent   = p.name;
-    ftGroup.textContent  = p.group;
-    ftGroup.className    = "ft-group-badge " + p.group.toLowerCase();
+    document.getElementById("ft-name").textContent  = p.name;
+    const fg = document.getElementById("ft-group");
+    fg.textContent = p.group; fg.className = "ft-group-badge " + p.group.toLowerCase();
+    document.getElementById("ft-sub").textContent = hasMsg ? "1 Unread Message" : "No message yet";
 
+    const ftAvatar = document.getElementById("ft-avatar");
     const dot = ftAvatar.querySelector(".ft-avatar-dot");
-    ftAvatar.innerHTML = "";
-    ftAvatar.appendChild(dot);
-
+    ftAvatar.innerHTML = ""; ftAvatar.appendChild(dot);
     if (p.img) {
-      const img = document.createElement("img");
-      img.src = p.img;
-      img.alt = p.name;
-      img.onerror = () => {
-        img.remove();
-        const d = document.createElement("div");
-        d.className   = "card__initials-sm";
-        d.textContent = initials(p.name);
-        ftAvatar.insertBefore(d, dot);
-      };
+      const img = document.createElement("img"); img.src = p.img; img.alt = p.name;
+      img.onerror = () => { img.remove(); const d = document.createElement("div"); d.className="card__initials-sm"; d.textContent=initials(p.name); ftAvatar.insertBefore(d,dot); };
       ftAvatar.insertBefore(img, dot);
     } else {
-      const d = document.createElement("div");
-      d.className   = "card__initials-sm";
-      d.textContent = initials(p.name);
-      ftAvatar.insertBefore(d, dot);
+      const d = document.createElement("div"); d.className="card__initials-sm"; d.textContent=initials(p.name); ftAvatar.insertBefore(d,dot);
     }
 
+    const btn = document.getElementById("ft-btn");
+    if (hasMsg) { btn.className="ft-btn"; btn.innerHTML=`<i class="ri-message-3-line"></i> View message`; }
+    else        { btn.className="ft-btn no-msg"; btn.innerHTML=`<i class="ri-time-line"></i> Not written yet`; }
+
     requestAnimationFrame(() => {
-      const rect    = avatarEl.getBoundingClientRect();
-      const tipH    = floatTip.offsetHeight || 220;
-      const avCX    = rect.left + rect.width / 2;
-      const MARGIN  = 8;
-
-      const spaceAbove = rect.top - GAP;
+      const rect = avatarEl.getBoundingClientRect();
+      const tipH = tip.offsetHeight || 220, avCX = rect.left + rect.width/2, MARGIN = 8;
+      const above = rect.top - GAP;
       let tipTop, arrowClass;
-
-      if (spaceAbove >= tipH) {
-        tipTop     = rect.top - tipH - GAP;
-        arrowClass = "arrow-down";
-      } else {
-        tipTop     = rect.bottom + GAP;
-        arrowClass = "arrow-up";
-      }
-
-      ftArrow.className = arrowClass;
-
-      let tipLeft  = avCX - TIP_W / 2;
-      tipLeft      = Math.max(MARGIN, Math.min(tipLeft, window.innerWidth - TIP_W - MARGIN));
-      const arPos  = Math.max(20, Math.min(avCX - tipLeft, TIP_W - 20));
-      ftArrow.style.left      = arPos + "px";
-      ftArrow.style.transform = "translateX(-50%) rotate(45deg)";
-
-      floatTip.style.left = tipLeft + "px";
-      floatTip.style.top  = tipTop  + "px";
-      floatTip.classList.add("visible");
+      if (above >= tipH) { tipTop = rect.top - tipH - GAP; arrowClass = "arrow-down"; }
+      else               { tipTop = rect.bottom + GAP;     arrowClass = "arrow-up"; }
+      document.getElementById("ft-arrow").className = arrowClass;
+      let tipLeft = Math.max(MARGIN, Math.min(avCX - TIP_W/2, window.innerWidth - TIP_W - MARGIN));
+      const arPos = Math.max(20, Math.min(avCX - tipLeft, TIP_W - 20));
+      const arr = document.getElementById("ft-arrow");
+      arr.style.left = arPos + "px"; arr.style.transform = "translateX(-50%) rotate(45deg)";
+      tip.style.left = tipLeft + "px"; tip.style.top = tipTop + "px";
+      tip.classList.add("visible");
     });
   }
 
   function hideTooltip() {
-    hideTimer = setTimeout(() => floatTip.classList.remove("visible"), 120);
+    hideTimer = setTimeout(() => document.getElementById("floating-tooltip").classList.remove("visible"), 120);
   }
 
-  floatTip.addEventListener("mouseenter", () => clearTimeout(hideTimer));
-  floatTip.addEventListener("mouseleave", hideTooltip);
-
-  let activeGroup = "ALL";
-
-  function buildProfileCard(p, index, globalIdx) {
-    const avatarHTML = p.img
-      ? `<img src="${p.img}" alt="${p.name}" onerror="this.parentNode.innerHTML='<div class=\\'card__initials\\'>${initials(p.name)}</div>'">`
-      : `<div class="card__initials">${initials(p.name)}</div>`;
-
-    const article = document.createElement("article");
-    article.className          = "card__article";
-    article.dataset.group      = p.group;
-    article.style.animationDelay = `${index * 0.035}s`;
-
-    article.innerHTML = `
-      <div class="avatar-wrap">
-        <div class="card__profile">${avatarHTML}</div>
-        <span class="unread-badge">1</span>
-        <span class="online-dot"></span>
-      </div>
-      <span class="card__name-label">${p.name}</span>
-      <span class="card__group-pill">${p.group}</span>
-    `;
-
-    const wrap = article.querySelector(".avatar-wrap");
-    wrap.addEventListener("mouseenter", () => showTooltip(wrap, p, globalIdx));
-    wrap.addEventListener("mouseleave", hideTooltip);
-
-    /* also open card on avatar click (mobile-friendly) */
-    wrap.addEventListener("click", () => openCard(globalIdx));
-
-    return article;
-  }
-
-  function render() {
-    const query = searchInput.value.trim().toLowerCase();
-    container.innerHTML = "";
-    floatTip.classList.remove("visible");
-
-    const filtered = profiles
-      .map((p, i) => ({ p, i }))
-      .filter(({ p }) =>
-        (activeGroup === "ALL" || p.group === activeGroup) &&
-        p.name.toLowerCase().includes(query)
-      );
-
-    countBadge.textContent       = filtered.length;
-    emptyState.style.display     = filtered.length === 0 ? "block" : "none";
-
-    filtered.forEach(({ p, i }, visIdx) => {
-      container.appendChild(buildProfileCard(p, visIdx, i));
-    });
-  }
-
-  filterTabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      filterTabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      activeGroup = tab.dataset.group;
-      render();
-    });
-  });
-
-  searchInput.addEventListener("input", render);
-  render();
-
-  /* ─────────────────────────────────────────────────
-     CARD OVERLAY
-  ───────────────────────────────────────────────── */
-  const overlay     = document.getElementById("card-overlay");
-  const greetCard   = document.getElementById("greeting-card");
-  const cardImgArea = document.getElementById("card-img-area");
-  const cardSender  = document.getElementById("card-sender-text");
-  const cardMsg     = document.getElementById("card-message");
-  const confWrap    = document.getElementById("confetti-wrap");
-
+  /* ─── CARD OVERLAY ─── */
   function openCard(idx) {
     if (idx < 0 || idx >= profiles.length) return;
-
-    floatTip.classList.remove("visible");
-    const p = profiles[idx];
-
-    /* populate sender */
-    cardSender.textContent = `From ${p.name} · ${p.group}`;
-
-    /* populate message */
-    cardMsg.textContent = p.message;
-
-    /* populate image area */
-    cardImgArea.innerHTML = "";
+    const p = profiles[idx], msg = getMsg(p.name);
+    if (!msg) return;
+    document.getElementById("floating-tooltip").classList.remove("visible");
+    document.getElementById("card-sender-text").textContent = `From ${p.name} · ${p.group}`;
+    document.getElementById("card-message").textContent = msg;
+    const ia = document.getElementById("card-img-area"); ia.innerHTML = "";
     if (p.img) {
-      const img = document.createElement("img");
-      img.src   = p.img;
-      img.alt   = p.name;
-      img.className = "card__memoji";
-      img.onerror = () => {
-        img.remove();
-        const d = document.createElement("div");
-        d.className   = "card__memoji-initials";
-        d.textContent = initials(p.name);
-        cardImgArea.appendChild(d);
-      };
-      cardImgArea.appendChild(img);
-    } else {
-      const d = document.createElement("div");
-      d.className   = "card__memoji-initials";
-      d.textContent = initials(p.name);
-      cardImgArea.appendChild(d);
-    }
-
-    /* reset card state */
-    greetCard.classList.remove("open");
-
-    /* show overlay */
-    overlay.classList.add("visible");
+      const img = document.createElement("img"); img.src=p.img; img.alt=p.name; img.className="card__memoji";
+      img.onerror = () => { img.remove(); const d=document.createElement("div"); d.className="card__memoji-initials"; d.textContent=initials(p.name); ia.appendChild(d); };
+      ia.appendChild(img);
+    } else { const d=document.createElement("div"); d.className="card__memoji-initials"; d.textContent=initials(p.name); ia.appendChild(d); }
+    const gc = document.getElementById("greeting-card"); gc.classList.remove("open");
+    document.getElementById("card-overlay").classList.add("visible");
     document.body.style.overflow = "hidden";
-
-    /* auto-open the card after a short delay */
-    setTimeout(() => {
-      greetCard.classList.add("open");
-      spawnConfetti();
-    }, 1200);
+    setTimeout(() => { gc.classList.add("open"); spawnConfetti(); }, 1200);
   }
 
   function closeCard() {
-    overlay.classList.remove("visible");
+    document.getElementById("card-overlay").classList.remove("visible");
     document.body.style.overflow = "";
-    greetCard.classList.remove("open");
-    confWrap.innerHTML = "";
+    document.getElementById("greeting-card").classList.remove("open");
+    document.getElementById("confetti-wrap").innerHTML = "";
   }
 
-  /* toggle open/close on click */
-  greetCard.addEventListener("click", () => {
-    greetCard.classList.toggle("open");
-    if (greetCard.classList.contains("open")) spawnConfetti();
+  document.getElementById("greeting-card").addEventListener("click", () => {
+    const gc = document.getElementById("greeting-card");
+    gc.classList.toggle("open");
+    if (gc.classList.contains("open")) spawnConfetti();
   });
 
-  /* ─────────────────────────────────────────────────
-     REACT BUTTONS
-  ───────────────────────────────────────────────── */
-  function toggleReact(btn, event) {
-    event.stopPropagation();
-    btn.classList.toggle("active");
-  }
+  function toggleReact(btn, e) { e.stopPropagation(); btn.classList.toggle("active"); }
 
-  /* ─────────────────────────────────────────────────
-     CONFETTI
-  ───────────────────────────────────────────────── */
   function spawnConfetti() {
-    const colors = [
-      "hsl(230,100%,60%)", "hsl(200,100%,60%)", "hsl(150,100%,45%)",
-      "hsl(280,80%,65%)",  "hsl(340,90%,65%)",  "hsl(45,100%,60%)"
-    ];
+    const wrap = document.getElementById("confetti-wrap");
+    const colors = ["hsl(230,100%,60%)","hsl(200,100%,60%)","hsl(150,100%,45%)","hsl(280,80%,65%)","hsl(340,90%,65%)","hsl(45,100%,60%)"];
     for (let i = 0; i < 60; i++) {
       const el = document.createElement("span");
-      el.style.left               = Math.random() * 100 + "vw";
-      el.style.background         = colors[Math.floor(Math.random() * colors.length)];
-      el.style.width              = (6 + Math.random() * 8) + "px";
-      el.style.height             = (6 + Math.random() * 8) + "px";
-      el.style.borderRadius       = Math.random() > 0.5 ? "50%" : "2px";
-      el.style.animationDuration  = (1.8 + Math.random() * 1.8) + "s";
-      el.style.animationDelay     = (Math.random() * 0.6) + "s";
-      confWrap.appendChild(el);
+      el.style.left = Math.random()*100+"vw"; el.style.background = colors[Math.floor(Math.random()*colors.length)];
+      el.style.width = (6+Math.random()*8)+"px"; el.style.height = (6+Math.random()*8)+"px";
+      el.style.borderRadius = Math.random()>.5?"50%":"2px"; el.style.animationDuration = (1.8+Math.random()*1.8)+"s";
+      el.style.animationDelay = (Math.random()*.6)+"s"; wrap.appendChild(el);
       el.addEventListener("animationend", () => el.remove());
     }
   }
 
-  /* close overlay on Escape key */
-  document.addEventListener("keydown", e => {
-    if (e.key === "Escape" && overlay.classList.contains("visible")) closeCard();
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeCard(); });
+
+  /* ─── WIRE UP LIVE EVENTS ONCE DOM IS READY ─── */
+  document.addEventListener("DOMContentLoaded", () => {
+    // live preview while typing
+    document.getElementById("editor-textarea").addEventListener("input", () => {
+      const v = document.getElementById("editor-textarea").value;
+      updatePreview(v); updateCharCount(v.length); updateStatusChip(null);
+    });
+    // enter to submit login
+    ["login-name-input","login-pw-input"].forEach(id =>
+      document.getElementById(id).addEventListener("keydown", e => { if (e.key==="Enter") attemptLogin(); }));
+    // password toggle
+    document.getElementById("pw-toggle").addEventListener("click", () => {
+      const inp = document.getElementById("login-pw-input");
+      inp.type = inp.type === "password" ? "text" : "password";
+      document.getElementById("pw-toggle-icon").className = inp.type==="password"?"ri-eye-off-line":"ri-eye-line";
+    });
+    // tooltip hover-stay
+    const tip = document.getElementById("floating-tooltip");
+    tip.addEventListener("mouseenter", () => clearTimeout(hideTimer));
+    tip.addEventListener("mouseleave", hideTooltip);
   });
 </script>
+
 </body>
 </html>
