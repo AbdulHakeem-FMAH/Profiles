@@ -295,6 +295,9 @@ input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events
 ```
 
   </style>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -457,11 +460,31 @@ input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events
 </div>
 
 <script>
-  /* ─── CONFIG — edit passwords here ─── */
-  const KARTHIK_NAME     = "karthick";   // Karthick types his own name
-  const KARTHIK_PASSWORD = "karthick";   // Karthick's own secret code
-  const TEAM_PASSWORD    = "lexi@2026";  // shared code for all 28 team members
-  const LS_PREFIX        = "farewell_v1_";
+  /* ═══════════════════════════════════════════════════
+     FIREBASE CONFIG
+     Replace the values below with your own project's
+     config from: Firebase Console → Project Settings
+     → Your apps → SDK setup and configuration
+  ═══════════════════════════════════════════════════ */
+  const firebaseConfig = {
+    apiKey: "AIzaSyD9DKYEMUpuJfO2Bkze6szIimB_AhYXhNw",
+    authDomain: "farewellmsgs.firebaseapp.com",
+    databaseURL: "https://farewellmsgs-default-rtdb.firebaseio.com",
+    projectId: "farewellmsgs",
+    storageBucket: "farewellmsgs.firebasestorage.app",
+    messagingSenderId: "492223559972",
+    appId: "1:492223559972:web:7abdde1672b40145fb9bb1",
+    measurementId: "G-4BQ4HFT10F"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+  const MESSAGES_PATH = "farewell_karthick/messages";
+
+  /* ─── CONFIG ─── */
+  const KARTHIK_NAME     = "karthick";
+  const KARTHIK_PASSWORD = "karthick";
+  const TEAM_PASSWORD    = "lexi@2026";
 
   /* ─── PROFILES ─── */
   const profiles = [
@@ -497,17 +520,42 @@ input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events
 
   /* ─── UTILS ─── */
   function initials(name) { return name.split(" ").map(w => w[0]).slice(0,2).join("").toUpperCase(); }
-  function lsKey(name)    { return LS_PREFIX + name.toLowerCase().replace(/\s+/g,"_"); }
-  function getMsg(name)   { return localStorage.getItem(lsKey(name)) || ""; }
-  function setMsg(name, t){ localStorage.setItem(lsKey(name), t); }
+  function dbKey(name)    { return name.toLowerCase().replace(/\s+/g, "_"); }
+
+  /* ─── FIREBASE STORAGE ─── */
+  // In-memory cache so the UI never has to wait for a second read
+  let messagesCache = {};
+
+  function getMsg(name)        { return messagesCache[dbKey(name)] || ""; }
+  function getCacheHasMsg(name){ return !!messagesCache[dbKey(name)]; }
+
+  async function setMsg(name, text) {
+    const key = dbKey(name);
+    messagesCache[key] = text;
+    await db.ref(`${MESSAGES_PATH}/${key}`).set(text || null);
+  }
+
+  // Load one person's message (for editor)
+  async function loadMsgForEditor(name) {
+    const snap = await db.ref(`${MESSAGES_PATH}/${dbKey(name)}`).get();
+    const val  = snap.exists() ? (snap.val() || "") : "";
+    messagesCache[dbKey(name)] = val;
+    return val;
+  }
+
+  // Load ALL messages at once (for Karthick's view)
+  async function loadAllMessages() {
+    const snap = await db.ref(MESSAGES_PATH).get();
+    messagesCache = snap.exists() ? (snap.val() || {}) : {};
+  }
 
   /* ─── LOGIN ─── */
   let wrongAttempts = 0;
   const errorMessages = [
-    { icon: "ri-question-line",      msg: "Hmm, that doesn't match. Try again 🤔",          cls: "error" },
-    { icon: "ri-emotion-sad-line",   msg: "Nope! Name must match exactly as in the list.",   cls: "error" },
-    { icon: "ri-lightbulb-line",     msg: "Hint: check your spelling and capitalisation.",   cls: "hint"  },
-    { icon: "ri-emotion-laugh-line", msg: "Ask the organiser for the team secret code 😄",   cls: "hint"  },
+    { icon: "ri-question-line",      msg: "Hmm, that doesn't match. Try again 🤔",         cls: "error" },
+    { icon: "ri-emotion-sad-line",   msg: "Nope! Name must match exactly as in the list.",  cls: "error" },
+    { icon: "ri-lightbulb-line",     msg: "Hint: check your spelling and capitalisation.",  cls: "hint"  },
+    { icon: "ri-emotion-laugh-line", msg: "Ask the organiser for the team secret code 😄",  cls: "hint"  },
   ];
 
   function showFeedback(icon, msg, cls) {
@@ -517,18 +565,19 @@ input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events
     fb.className = "login-feedback show " + cls;
   }
 
-  function attemptLogin() {
+  async function attemptLogin() {
     const nameRaw = document.getElementById("login-name-input").value.trim();
     const pw      = document.getElementById("login-pw-input").value.trim();
     const pwInput = document.getElementById("login-pw-input");
     const btn     = document.getElementById("login-btn");
     const nl = nameRaw.toLowerCase(), pl = pw.toLowerCase();
 
-    // Karthik
+    // Karthick
     if (nl === KARTHIK_NAME && pl === KARTHIK_PASSWORD) {
       showFeedback("ri-check-line", "Welcome, Karthick! 🎉 Loading your messages…", "hint");
-      btn.innerHTML = `<i class="ri-check-line"></i> Welcome, Karthick!`; btn.classList.add("success"); btn.disabled = true;
-      setTimeout(() => showPage("messages"), 900);
+      btn.innerHTML = `<i class="ri-loader-4-line"></i> Loading…`; btn.classList.add("success"); btn.disabled = true;
+      await loadAllMessages();
+      showPage("messages");
       return;
     }
 
@@ -536,8 +585,10 @@ input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events
     const profile = profiles.find(p => p.name.toLowerCase() === nl);
     if (profile && pl === TEAM_PASSWORD.toLowerCase()) {
       showFeedback("ri-check-line", `Welcome, ${profile.name}! Opening your message space…`, "hint");
-      btn.innerHTML = `<i class="ri-check-line"></i> Welcome, ${profile.name}!`; btn.classList.add("success"); btn.disabled = true;
-      setTimeout(() => { showPage("editor"); openEditorFor(profile); }, 900);
+      btn.innerHTML = `<i class="ri-loader-4-line"></i> Loading…`; btn.classList.add("success"); btn.disabled = true;
+      const saved = await loadMsgForEditor(profile.name);
+      showPage("editor");
+      openEditorFor(profile, saved);
       return;
     }
 
@@ -566,16 +617,15 @@ input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events
   /* ─── EDITOR ─── */
   let currentEditorProfile = null;
 
-  function openEditorFor(p) {
+  function openEditorFor(p, savedText) {
     currentEditorProfile = p;
     document.getElementById("editor-avatar").textContent = initials(p.name);
     document.getElementById("editor-topbar-name").textContent = p.name;
     document.getElementById("editor-topbar-sub").textContent = p.group + " · Farewell message for Karthick";
     document.getElementById("preview-sender-text").textContent = `From ${p.name} · ${p.group}`;
-    const saved = getMsg(p.name);
     const ta = document.getElementById("editor-textarea");
-    ta.value = saved;
-    updatePreview(saved); updateCharCount(saved.length); updateStatusChip(saved);
+    ta.value = savedText || "";
+    updatePreview(savedText || ""); updateCharCount((savedText || "").length); updateStatusChip(savedText || "");
   }
 
   function updatePreview(text) {
@@ -602,15 +652,22 @@ input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events
     }
   }
 
-  function saveMessage() {
+  async function saveMessage() {
     if (!currentEditorProfile) return;
     const text = document.getElementById("editor-textarea").value.trim();
-    setMsg(currentEditorProfile.name, text);
-    updateStatusChip(text);
-    showToast(text ? "Message saved! Karthick will love it 🎉" : "Message cleared.", !!text);
-    const btn = document.getElementById("save-btn");
-    btn.classList.add("saved"); btn.innerHTML = `<i class="ri-check-line"></i> Saved!`;
-    setTimeout(() => { btn.classList.remove("saved"); btn.innerHTML = `<i class="ri-save-line"></i> Save message`; }, 2200);
+    const btn  = document.getElementById("save-btn");
+    btn.disabled = true;
+    btn.innerHTML = `<i class="ri-loader-4-line"></i> Saving…`;
+    try {
+      await setMsg(currentEditorProfile.name, text);
+      updateStatusChip(text);
+      showToast(text ? "Message saved! Karthick will love it 🎉" : "Message cleared.", !!text);
+      btn.classList.add("saved"); btn.innerHTML = `<i class="ri-check-line"></i> Saved!`;
+      setTimeout(() => { btn.classList.remove("saved"); btn.disabled = false; btn.innerHTML = `<i class="ri-save-line"></i> Save message`; }, 2200);
+    } catch (e) {
+      showToast("Save failed — check your connection.", false);
+      btn.disabled = false; btn.innerHTML = `<i class="ri-save-line"></i> Save message`;
+    }
   }
 
   function showToast(msg, success) {
@@ -620,7 +677,7 @@ input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events
     setTimeout(() => { t.className = "editor-toast"; }, 3000);
   }
 
-  /* ─── MESSAGES PAGE ─── */
+  /* ─── MESSAGES PAGE (Karthick's view) ─── */
   let currentProfileIndex = -1;
   let hideTimer = null;
   const TIP_W = 230, GAP = 10;
@@ -632,7 +689,7 @@ input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events
     let activeGroup  = "ALL";
 
     function buildCard(p, visIdx, globalIdx) {
-      const hasMsg = !!getMsg(p.name);
+      const hasMsg = getCacheHasMsg(p.name);
       const avHTML = p.img
         ? `<img src="${p.img}" alt="${p.name}" onerror="this.parentNode.innerHTML='<div class=\\'card__initials\\'>${initials(p.name)}</div>'">`
         : `<div class="card__initials">${initials(p.name)}</div>`;
@@ -673,7 +730,12 @@ input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events
       });
     });
     document.getElementById("search-input").addEventListener("input", render);
-    render();
+
+    // Listen for real-time updates while Karthick is on the page
+    db.ref(MESSAGES_PATH).on("value", snap => {
+      messagesCache = snap.exists() ? (snap.val() || {}) : {};
+      render();
+    });
   }
 
   /* ─── TOOLTIP ─── */
@@ -773,23 +835,19 @@ input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events
 
   document.addEventListener("keydown", e => { if (e.key === "Escape") closeCard(); });
 
-  /* ─── WIRE UP LIVE EVENTS ONCE DOM IS READY ─── */
+  /* ─── WIRE UP EVENTS ─── */
   document.addEventListener("DOMContentLoaded", () => {
-    // live preview while typing
     document.getElementById("editor-textarea").addEventListener("input", () => {
       const v = document.getElementById("editor-textarea").value;
       updatePreview(v); updateCharCount(v.length); updateStatusChip(null);
     });
-    // enter to submit login
     ["login-name-input","login-pw-input"].forEach(id =>
       document.getElementById(id).addEventListener("keydown", e => { if (e.key==="Enter") attemptLogin(); }));
-    // password toggle
     document.getElementById("pw-toggle").addEventListener("click", () => {
       const inp = document.getElementById("login-pw-input");
       inp.type = inp.type === "password" ? "text" : "password";
       document.getElementById("pw-toggle-icon").className = inp.type==="password"?"ri-eye-off-line":"ri-eye-line";
     });
-    // tooltip hover-stay
     const tip = document.getElementById("floating-tooltip");
     tip.addEventListener("mouseenter", () => clearTimeout(hideTimer));
     tip.addEventListener("mouseleave", hideTooltip);
@@ -798,4 +856,3 @@ input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events
 
 </body>
 </html>
-
