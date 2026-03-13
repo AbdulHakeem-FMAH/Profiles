@@ -62,7 +62,7 @@ img { display: block; max-width: 100%; height: auto; }
 @keyframes cardIn { from { opacity: 0; transform: translateY(28px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
 .login-accent { height: 4px; background: linear-gradient(90deg, var(--first-color), hsl(200,100%,60%), var(--second-color)); border-radius: 1.75rem 1.75rem 0 0; }
-.login-body { padding: 2.25rem 2rem 2rem; }
+.login-body { padding: 2.25rem 2rem 2rem; box-sizing: border-box; width: 100%; }
 .login-logo { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; }
 .login-logo-icon { width: 40px; height: 40px; background: var(--first-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #fff; flex-shrink: 0; box-shadow: 0 4px 12px hsla(230,100%,50%,0.3); }
 .login-logo-text { display: flex; flex-direction: column; gap: 0.1rem; }
@@ -75,11 +75,11 @@ img { display: block; max-width: 100%; height: auto; }
 .login-heading { font-size: 1.45rem; font-weight: 700; color: var(--title-color); letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 0.4rem; }
 .login-heading span { background: linear-gradient(135deg, var(--first-color), hsl(200,100%,60%)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .login-sub { font-size: 0.82rem; color: var(--text-color); line-height: 1.6; margin-bottom: 1.75rem; }
-.login-field { margin-bottom: 1rem; }
+.login-field { margin-bottom: 1rem; min-width: 0; }
 .login-label { display: block; font-size: 0.72rem; font-weight: 600; color: var(--title-color); letter-spacing: 0.03em; margin-bottom: 0.4rem; }
-.login-input-wrap { position: relative; }
+.login-input-wrap { position: relative; min-width: 0; }
 .login-input-wrap i.input-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--text-color); pointer-events: none; transition: color 0.2s; }
-.login-input { width: 100%; padding: 0.7rem 1rem 0.7rem 2.6rem; border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--body-color); font-family: var(--body-font); font-size: 0.88rem; font-weight: 500; color: var(--title-color); outline: none; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none; appearance: none; }
+.login-input { display: block; width: 100%; box-sizing: border-box; padding: 0.7rem 1rem 0.7rem 2.6rem; border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--body-color); font-family: var(--body-font); font-size: 0.88rem; font-weight: 500; color: var(--title-color); outline: none; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none; appearance: none; }
 .login-input.has-toggle { padding-right: 2.8rem; }
 .login-input::placeholder { color: var(--text-color); opacity: 0.6; }
 .login-input:focus { border-color: var(--first-color); background: var(--container-color); box-shadow: 0 0 0 3px hsla(230,100%,50%,0.1); }
@@ -309,7 +309,7 @@ input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events
       <div class="login-logo">
         <div class="login-logo-icon"><i class="ri-message-3-fill"></i></div>
         <div class="login-logo-text">
-          <span class="login-logo-title">CTO - CDP</span>
+          <span class="login-logo-title">Team Portal</span>
           <span class="login-logo-sub">FAREWELL EDITION</span>
         </div>
         <div class="login-groups">
@@ -798,4 +798,3 @@ input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events
 
 </body>
 </html>
-
